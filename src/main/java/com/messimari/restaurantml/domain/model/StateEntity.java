@@ -20,7 +20,7 @@ public class StateEntity {
     private Long id;
 
     @Min(2)
-    @NotEmpty
+    @NotEmpty(message = "{not_empty_msg}")
     @Column(name = "NAME_STATE", nullable = false)
     private String name;
 }

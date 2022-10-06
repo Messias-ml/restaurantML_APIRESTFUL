@@ -6,6 +6,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 
+import javax.validation.Valid;
 import java.util.List;
 
 @RestController
@@ -17,7 +18,7 @@ public class KitchenController {
 
     @ResponseStatus(HttpStatus.CREATED)
     @PostMapping
-    public KitchenEntity registerKitchen(@RequestBody KitchenEntity kitchen){
+    public KitchenEntity registerKitchen(@RequestBody @Valid KitchenEntity kitchen){
         return service.registerKitchen(kitchen);
     }
 
