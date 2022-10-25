@@ -1,9 +1,12 @@
 package com.messimari.restaurantml.domain.model;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import lombok.Builder;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
+import lombok.NoArgsConstructor;
 import org.hibernate.annotations.CreationTimestamp;
+import org.hibernate.annotations.Fetch;
 import org.hibernate.annotations.UpdateTimestamp;
 
 import javax.persistence.*;
@@ -13,17 +16,18 @@ import java.util.ArrayList;
 import java.util.List;
 
 @Data
-@EqualsAndHashCode(onlyExplicitlyIncluded = true)
 @Entity
 @Table(name = "Restaurant")
+@NoArgsConstructor
+
 public class RestaurantEntity {
 
-    @EqualsAndHashCode.Include
     @Id
     @Column(name = "ID_RESTAURANT")
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
+    @JsonIgnore
     @Embedded
     private Address address;
 
@@ -37,7 +41,7 @@ public class RestaurantEntity {
     @JoinColumn(name = "ID_KITCHEN", nullable = false)
     private KitchenEntity kitchen;
 
-    @ManyToMany
+    @ManyToMany(cascade = CascadeType.ALL)
     @JoinTable(name = "Form_Payment_Restaurant",
             joinColumns = @JoinColumn(name = "ID_RESTAURANT"),
             inverseJoinColumns = @JoinColumn(name = "ID_FORM_PAYMENT"))

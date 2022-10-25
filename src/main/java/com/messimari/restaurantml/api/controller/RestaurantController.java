@@ -1,5 +1,7 @@
 package com.messimari.restaurantml.api.controller;
 
+import com.messimari.restaurantml.domain.dto.restaurant.RestaurantRequestDTO;
+import com.messimari.restaurantml.domain.dto.restaurant.RestaurantResponseDTO;
 import com.messimari.restaurantml.domain.model.RestaurantEntity;
 import com.messimari.restaurantml.domain.service.RegistrationRestaurantService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -17,13 +19,13 @@ public class RestaurantController {
 
     @ResponseStatus(HttpStatus.CREATED)
     @PostMapping
-    public RestaurantEntity registerRestaurant(@RequestBody RestaurantEntity restaurant){
+    public RestaurantEntity registerRestaurant(@RequestBody RestaurantRequestDTO restaurant){
         return service.registerRestaurant(restaurant);
     }
 
     @ResponseStatus(HttpStatus.OK)
     @GetMapping
-    public List<RestaurantEntity> listRestaurants(){
+    public List<RestaurantResponseDTO> listRestaurants(){
         return service.listRestaurants();
     }
 
@@ -36,7 +38,7 @@ public class RestaurantController {
     @ResponseStatus(HttpStatus.OK)
     @PutMapping("/{id}")
     public RestaurantEntity updateRestaurant(@PathVariable Long id,
-                                       @RequestBody RestaurantEntity updatedRestaurant){
+                                       @RequestBody RestaurantRequestDTO updatedRestaurant){
         return service.updateRestaurant(id, updatedRestaurant);
     }
 

@@ -18,5 +18,5 @@ public class FormPaymentEntity {
     private Long id;
 
     @Column(name = "DESCRIPTION", nullable = false)
-    private String description;
+    private String description = "Dinheiro";
 }

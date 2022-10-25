@@ -7,13 +7,11 @@ import javax.persistence.*;
 import javax.validation.constraints.NotBlank;
 
 @Data
-@EqualsAndHashCode(onlyExplicitlyIncluded = true)
 @Entity
 @Table(name = "Kitchen")
 public class KitchenEntity {
 
     @Id
-    @EqualsAndHashCode.Include
     @Column(name = "ID_KITCHEN", nullable = false)
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;

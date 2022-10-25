@@ -64,14 +64,14 @@ public class ApiExceptionHandler extends ResponseEntityExceptionHandler {
         problemWithField.setFieldValidation(fieldValidations);
         return ResponseEntity.status(HttpStatus.BAD_REQUEST.value()).body(problemWithField);
     }
-
+/*
     @ExceptionHandler(Exception.class)
     private ResponseEntity<Problem> handlerErroException(Exception ex) {
         String nameErro = "Erro inesperado";
         Integer status = HttpStatus.INTERNAL_SERVER_ERROR.value();
         Problem problem = getProblem("ErrorException", null, nameErro, status);
         return ResponseEntity.status(status).body(problem);
-    }
+    }*/
 
     private Problem getProblem(String message, Object[] objects, String nameErro, Integer status) {
         String detail = getMessage(objects, message.concat(".detail"));
