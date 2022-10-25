@@ -1,8 +1,8 @@
 package com.messimari.restaurantml.domain.service;
 
-import com.messimari.restaurantml.domain.dto.restaurant.IdFormPayment;
-import com.messimari.restaurantml.domain.dto.restaurant.RestaurantRequestDTO;
-import com.messimari.restaurantml.domain.dto.restaurant.RestaurantResponseDTO;
+import com.messimari.restaurantml.api.model.dto.restaurant.IdFormPayment;
+import com.messimari.restaurantml.api.model.dto.restaurant.RestaurantRequestDTO;
+import com.messimari.restaurantml.api.model.dto.restaurant.RestaurantResponseDTO;
 import com.messimari.restaurantml.domain.exception.EntityInUseException;
 import com.messimari.restaurantml.domain.exception.RecordNotFoundException;
 import com.messimari.restaurantml.domain.model.FormPaymentEntity;

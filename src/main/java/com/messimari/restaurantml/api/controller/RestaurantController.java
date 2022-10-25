@@ -1,7 +1,7 @@
 package com.messimari.restaurantml.api.controller;
 
-import com.messimari.restaurantml.domain.dto.restaurant.RestaurantRequestDTO;
-import com.messimari.restaurantml.domain.dto.restaurant.RestaurantResponseDTO;
+import com.messimari.restaurantml.api.model.dto.restaurant.RestaurantRequestDTO;
+import com.messimari.restaurantml.api.model.dto.restaurant.RestaurantResponseDTO;
 import com.messimari.restaurantml.domain.model.RestaurantEntity;
 import com.messimari.restaurantml.domain.service.RegistrationRestaurantService;
 import org.springframework.beans.factory.annotation.Autowired;

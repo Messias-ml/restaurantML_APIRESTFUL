@@ -12,6 +12,7 @@ import org.hibernate.annotations.UpdateTimestamp;
 import javax.persistence.*;
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
+import java.time.OffsetDateTime;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -37,7 +38,7 @@ public class RestaurantEntity {
     @Column(name = "TAX_FRETE", nullable = false)
     private BigDecimal taxFrete;
 
-    @ManyToOne(fetch = FetchType.LAZY)
+    @ManyToOne
     @JoinColumn(name = "ID_KITCHEN", nullable = false)
     private KitchenEntity kitchen;
 
@@ -49,11 +50,11 @@ public class RestaurantEntity {
 
     @CreationTimestamp
     @Column(nullable = false, columnDefinition = "datetime")
-    private LocalDateTime creationDate;
+    private OffsetDateTime creationDate;
 
     @UpdateTimestamp
     @Column(nullable = false, columnDefinition = "datetime")
-    private LocalDateTime updateDate;
+    private OffsetDateTime updateDate;
 
     @JsonIgnore
     @OneToMany(mappedBy = "restaurant")

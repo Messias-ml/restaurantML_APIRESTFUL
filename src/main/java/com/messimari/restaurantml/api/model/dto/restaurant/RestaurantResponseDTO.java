@@ -1,4 +1,4 @@
-package com.messimari.restaurantml.domain.dto.restaurant;
+package com.messimari.restaurantml.api.model.dto.restaurant;
 
 import lombok.Data;
 

@@ -1,8 +1,8 @@
 package com.messimari.restaurantml.restaurant;
 
 import com.messimari.restaurantml.BaseTest;
-import com.messimari.restaurantml.domain.dto.restaurant.IdFormPayment;
-import com.messimari.restaurantml.domain.dto.restaurant.RestaurantRequestDTO;
+import com.messimari.restaurantml.api.model.dto.restaurant.IdFormPayment;
+import com.messimari.restaurantml.api.model.dto.restaurant.RestaurantRequestDTO;
 import com.messimari.restaurantml.domain.repository.FormPaymentRepository;
 import com.messimari.restaurantml.domain.repository.KitchenRepository;
 import com.messimari.restaurantml.domain.repository.RestaurantRepository;
@@ -17,7 +17,6 @@ import java.math.BigDecimal;
 import java.util.List;
 
 import static io.restassured.RestAssured.given;
-import static io.restassured.RestAssured.when;
 import static org.springframework.boot.test.context.SpringBootTest.WebEnvironment.RANDOM_PORT;
 
 @SpringBootTest(webEnvironment = RANDOM_PORT)

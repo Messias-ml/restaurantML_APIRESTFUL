@@ -1,8 +1,7 @@
 package com.messimari.restaurantml.domain.utils;
 
-import com.messimari.restaurantml.domain.dto.restaurant.RestaurantResponseDTO;
+import com.messimari.restaurantml.api.model.dto.restaurant.RestaurantResponseDTO;
 import com.messimari.restaurantml.domain.model.RestaurantEntity;
-import com.messimari.restaurantml.domain.repository.KitchenRepository;
 import org.springframework.beans.BeanUtils;
 import org.springframework.util.CollectionUtils;
 import org.springframework.util.ObjectUtils;
