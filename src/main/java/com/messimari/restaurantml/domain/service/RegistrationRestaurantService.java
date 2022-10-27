@@ -20,8 +20,7 @@ import org.springframework.util.CollectionUtils;
 import java.util.List;
 import java.util.stream.Collectors;
 
-import static com.messimari.restaurantml.domain.utils.ConvertUtils.convert;
-import static com.messimari.restaurantml.domain.utils.ConvertUtils.findRestaurantsWithNameKitchen;
+import static com.messimari.restaurantml.core.ConvertUtils.*;
 
 @Service
 @AllArgsConstructor

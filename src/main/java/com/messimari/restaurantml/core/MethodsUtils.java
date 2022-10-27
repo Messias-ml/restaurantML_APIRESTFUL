@@ -1,4 +1,4 @@
-package com.messimari.restaurantml.domain.utils;
+package com.messimari.restaurantml.core;
 
 public class MethodsUtils {
 
