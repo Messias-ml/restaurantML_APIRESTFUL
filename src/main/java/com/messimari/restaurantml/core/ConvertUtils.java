@@ -55,7 +55,7 @@ public class ConvertUtils {
         return getDesiredObject(objectWithContent, classCopy);
     }
 
-    public static <T> List<T> convertListMap(List<Object> objectsWithContent, Class<T> classCopy){
+    public static <T> List<T> convertListMap(List<?> objectsWithContent, Class<T> classCopy){
         ModelMapper modelMapper = new ModelMapper();
         if (CollectionUtils.isEmpty(objectsWithContent)) {
             throw new RecordNotExists(new Object[]{objectsWithContent.getClass().getName()});
