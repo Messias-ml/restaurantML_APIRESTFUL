@@ -31,8 +31,8 @@ public class RestaurantController {
 
     @ResponseStatus(HttpStatus.OK)
     @GetMapping("/{id}")
-    public RestaurantEntity listRestaurantById(@PathVariable("id") Long id){
-        return service.listRestaurantById(id);
+    public RestaurantResponseDTO listRestaurantById(@PathVariable("id") Long id){
+        return service.getRestaurantById2(id);
     }
 
     @ResponseStatus(HttpStatus.OK)

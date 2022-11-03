@@ -1,5 +1,8 @@
 package com.messimari.restaurantml.domain.service;
 
+import com.messimari.restaurantml.api.model.dto.city.CityListDTO;
+import com.messimari.restaurantml.api.model.dto.city.CityRequestDTO;
+import com.messimari.restaurantml.api.model.dto.city.CityResponseDTO;
 import com.messimari.restaurantml.domain.exception.EntityInUseException;
 import com.messimari.restaurantml.domain.exception.RecordNotFoundException;
 import com.messimari.restaurantml.domain.model.CityEntity;
@@ -7,11 +10,12 @@ import com.messimari.restaurantml.domain.model.StateEntity;
 import com.messimari.restaurantml.domain.repository.CityRepository;
 import com.messimari.restaurantml.domain.repository.StateRepository;
 import lombok.AllArgsConstructor;
-import org.springframework.beans.BeanUtils;
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+
+import static com.messimari.restaurantml.core.ModelMapperConvert.*;
 
 @AllArgsConstructor
 @Service
@@ -26,35 +30,41 @@ public class RegistrationCityService {
         return repository.save(restaurant);
     }
 
-    public List<CityEntity> listCities() {
-        return repository.findAll();
+    public List<CityListDTO> listCities() {
+        List<CityEntity> allCities = repository.findAll();
+        return convertList(allCities, CityListDTO.class);
     }
 
-    public CityEntity listCityById(Long id) {
-        return repository.findById(id)
+    public CityResponseDTO cityById(Long id) {
+        CityEntity cityEntity = repository.findById(id)
                 .orElseThrow(() -> new RecordNotFoundException(new Object[]{id}));
+        return convert(cityEntity, CityResponseDTO.class);
     }
 
-    public CityEntity updateCity(Long id, CityEntity updatedCity) {
-        CityEntity restaurantEntity = listCityById(id);
-        BeanUtils.copyProperties(updatedCity, restaurantEntity, "id");
-        setStateInCityById(restaurantEntity);
-        return repository.save(restaurantEntity);
+    public void updateCity(Long id, CityRequestDTO updatedCity) {
+        CityEntity cityEntity = repository.findById(id)
+                .orElseThrow(() -> new RecordNotFoundException(new Object[]{id}));
+        cityEntity.setState(new StateEntity());
+        cityEntity = convert(updatedCity, CityEntity.class);
+        cityEntity.setId(id);
+        repository.save(cityEntity);
     }
 
     public void deleteCity(Long id) {
         try {
-            repository.delete(listCityById(id));
+            CityEntity cityEntity = repository.findById(id)
+                    .orElseThrow(() -> new RecordNotFoundException(new Object[]{id}));
+            repository.delete(cityEntity);
         } catch (DataIntegrityViolationException dt) {
             throw new EntityInUseException();
         }
     }
 
-    private void setStateInCityById(CityEntity restaurant) {
-        Long idState = restaurant.getState().getId();
+    private void setStateInCityById(CityEntity city) {
+        Long idState = city.getState().getId();
         StateEntity stateEntity = stateRepository.findById(idState)
                 .orElseThrow(() -> new RecordNotFoundException(new Object[]{idState}));
-        restaurant.setState(stateEntity);
+        city.setState(stateEntity);
     }
 
 }

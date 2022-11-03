@@ -3,6 +3,7 @@ package com.messimari.restaurantml.domain.service;
 import com.messimari.restaurantml.api.model.dto.restaurant.IdFormPayment;
 import com.messimari.restaurantml.api.model.dto.restaurant.RestaurantRequestDTO;
 import com.messimari.restaurantml.api.model.dto.restaurant.RestaurantResponseDTO;
+import com.messimari.restaurantml.core.ModelMapperConvert;
 import com.messimari.restaurantml.domain.exception.EntityInUseException;
 import com.messimari.restaurantml.domain.exception.RecordNotFoundException;
 import com.messimari.restaurantml.domain.model.FormPaymentEntity;
@@ -20,7 +21,7 @@ import org.springframework.util.CollectionUtils;
 import java.util.List;
 import java.util.stream.Collectors;
 
-import static com.messimari.restaurantml.core.ConvertUtils.*;
+import static org.hibernate.query.criteria.internal.ValueHandlerFactory.convert;
 
 @Service
 @AllArgsConstructor
@@ -37,20 +38,19 @@ public class RegistrationRestaurantService {
     }
 
     public List<RestaurantResponseDTO> listRestaurants() {
-        return findRestaurantsWithNameKitchen(repository.findAll());
-    }/*
-
-    private List<RestaurantResponseDTO> findRestaurantsWithNameKitchen() {
-        List<RestaurantEntity> listRestaurantEntity = repository.findAll();
-        List<RestaurantResponseDTO> listRestaurantDTO = convertList(listRestaurantEntity, RestaurantResponseDTO.class);
-        listRestaurantDTO.stream().forEach(r -> {
-            if (r.getName())
-        });
+        List<RestaurantEntity> todosRestaurants = repository.findAll();
+        return ModelMapperConvert.convertList(todosRestaurants, RestaurantResponseDTO.class);
     }
-*/
-    public RestaurantEntity  listRestaurantById(Long id) {
+
+    public RestaurantEntity getRestaurantById(Long id) {
         return repository.findById(id)
                 .orElseThrow(() -> new RecordNotFoundException(new Object[]{id}));
+    }
+
+    public RestaurantResponseDTO getRestaurantById2(Long id) {
+        RestaurantEntity restaurantEntity = repository.findById(id)
+                .orElseThrow(() -> new RecordNotFoundException(new Object[]{id}));
+        return ModelMapperConvert.convert(restaurantEntity, RestaurantResponseDTO.class);
     }
 
     public RestaurantEntity updateRestaurant(Long id, RestaurantRequestDTO updatedRestaurant) {
@@ -64,7 +64,7 @@ public class RegistrationRestaurantService {
 
     public void deleteRestaurant(Long id) {
         try {
-            repository.delete(listRestaurantById(id));
+            repository.delete(getRestaurantById(id));
         }catch (DataIntegrityViolationException dt){
             throw new EntityInUseException();
         }
