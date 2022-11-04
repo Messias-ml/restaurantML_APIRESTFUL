@@ -40,13 +40,13 @@ public class RegistrationKitchenService {
 
     public void updateKitchen(Long id, KitchenDTO updatedKitchen) {
         KitchenEntity kitchenEntity = findById(id);
-        modelMapper().map(updatedKitchen, kitchenEntity);
+        kitchenEntity = convert(updatedKitchen, kitchenEntity);
         repository.save(kitchenEntity);
     }
 
     public void deleteKitchen(Long id) {
         try {
-            repository.delete(findById(id));
+            repository.deleteById(id);
         }catch (DataIntegrityViolationException dt){
             throw new EntityInUseException();
         }

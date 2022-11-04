@@ -7,5 +7,5 @@ public class CityRequestDTO {
 
     private String name;
 
-    private Long state;
+    private Long idState;
 }

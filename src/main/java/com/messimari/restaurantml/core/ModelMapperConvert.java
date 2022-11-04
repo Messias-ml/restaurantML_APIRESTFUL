@@ -2,7 +2,6 @@ package com.messimari.restaurantml.core;
 
 import com.messimari.restaurantml.domain.exception.RecordNotFoundException;
 import org.modelmapper.ModelMapper;
-import org.springframework.beans.BeanUtils;
 import org.springframework.util.CollectionUtils;
 import org.springframework.util.ObjectUtils;
 
@@ -17,16 +16,6 @@ public class ModelMapperConvert {
         }
         ModelMapper modelMapper = new ModelMapper();
         return modelMapper.map(objectWithContent, classCopy);
-    }
-
-    public static <T> T convert(Object objectWithContent, T objectNecessary) {
-        if (ObjectUtils.isEmpty(objectWithContent)) {
-            throw new RecordNotFoundException(new Object[]{"objeto com conteúdo dentro da conversão do modelMap"});
-        }else {
-            ModelMapper modelMapper = new ModelMapper();
-            modelMapper.map(objectWithContent, objectNecessary);
-            return objectNecessary;
-        }
     }
 
     public static <V> List<V> convertList(List<?> listWithContent, Class<V> classCopy) {
