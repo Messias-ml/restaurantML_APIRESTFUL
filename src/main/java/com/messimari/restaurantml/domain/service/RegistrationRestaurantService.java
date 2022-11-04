@@ -39,7 +39,7 @@ public class RegistrationRestaurantService {
         return repository.save(getRestaurantEntity(restaurant));
     }
 
-    public List<RestaurantResponseDTO> listRestaurants() {
+    public List<RestaurantResponseDTO> searchListRestaurants() {
         List<RestaurantEntity> allRestaurants = repository.findAll();
         return convertList(allRestaurants, RestaurantResponseDTO.class);
     }

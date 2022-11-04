@@ -27,7 +27,7 @@ public class RestaurantController {
     @ResponseStatus(HttpStatus.OK)
     @GetMapping
     public List<RestaurantResponseDTO> listRestaurants(){
-        return service.listRestaurants();
+        return service.searchListRestaurants();
     }
 
     @ResponseStatus(HttpStatus.OK)
