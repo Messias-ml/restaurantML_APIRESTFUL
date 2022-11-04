@@ -45,7 +45,7 @@ public class RegistrationCityService {
         CityEntity cityEntity = repository.findById(id)
                 .orElseThrow(() -> new RecordNotFoundException(new Object[]{id}));
         cityEntity.setState(new StateEntity());
-        convert(updatedCity, CityEntity.class);
+        cityEntity = convert(updatedCity, CityEntity.class);
         cityEntity.setId(id);
         repository.save(cityEntity);
     }
