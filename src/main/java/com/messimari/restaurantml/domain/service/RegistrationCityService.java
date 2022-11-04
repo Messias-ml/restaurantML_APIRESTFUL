@@ -1,6 +1,6 @@
 package com.messimari.restaurantml.domain.service;
 
-import com.messimari.restaurantml.api.model.dto.city.CityListDTO;
+import com.messimari.restaurantml.api.model.dto.city.CityDTO;
 import com.messimari.restaurantml.api.model.dto.city.CityRequestDTO;
 import com.messimari.restaurantml.api.model.dto.city.CityResponseDTO;
 import com.messimari.restaurantml.domain.exception.EntityInUseException;
@@ -30,9 +30,9 @@ public class RegistrationCityService {
         return repository.save(restaurant);
     }
 
-    public List<CityListDTO> listCities() {
+    public List<CityDTO> listCities() {
         List<CityEntity> allCities = repository.findAll();
-        return convertList(allCities, CityListDTO.class);
+        return convertList(allCities, CityDTO.class);
     }
 
     public CityResponseDTO cityById(Long id) {

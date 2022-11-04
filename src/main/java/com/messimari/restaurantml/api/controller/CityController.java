@@ -1,6 +1,6 @@
 package com.messimari.restaurantml.api.controller;
 
-import com.messimari.restaurantml.api.model.dto.city.CityListDTO;
+import com.messimari.restaurantml.api.model.dto.city.CityDTO;
 import com.messimari.restaurantml.api.model.dto.city.CityRequestDTO;
 import com.messimari.restaurantml.api.model.dto.city.CityResponseDTO;
 import com.messimari.restaurantml.domain.model.CityEntity;
@@ -26,7 +26,7 @@ public class CityController {
 
     @ResponseStatus(HttpStatus.OK)
     @GetMapping
-    public List<CityListDTO> listCities(){
+    public List<CityDTO> listCities(){
         return service.listCities();
     }
 
