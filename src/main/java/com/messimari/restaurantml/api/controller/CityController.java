@@ -20,20 +20,20 @@ public class CityController {
 
     @ResponseStatus(HttpStatus.CREATED)
     @PostMapping
-    public CityEntity registerRestaurant(@RequestBody CityEntity restaurant){
-        return service.registerCity(restaurant);
+    public CityEntity createCity(@RequestBody CityEntity city){
+        return service.createCity(city);
     }
 
     @ResponseStatus(HttpStatus.OK)
     @GetMapping
-    public List<CityDTO> listCities(){
-        return service.listCities();
+    public List<CityDTO> findlistCities(){
+        return service.findlistCities();
     }
 
     @ResponseStatus(HttpStatus.OK)
     @GetMapping("/{id}")
-    public CityResponseDTO listCityById(@PathVariable("id") Long id){
-        return service.cityById(id);
+    public CityResponseDTO findByIdcity (@PathVariable("id") Long id){
+        return service.findByIdcity(id);
     }
 
     @ResponseStatus(HttpStatus.NO_CONTENT)

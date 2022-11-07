@@ -25,17 +25,17 @@ public class RegistrationCityService {
 
     private StateRepository stateRepository;
 
-    public CityEntity registerCity(CityEntity restaurant) {
+    public CityEntity createCity(CityEntity restaurant) {
         setStateInCityById(restaurant);
         return repository.save(restaurant);
     }
 
-    public List<CityDTO> listCities() {
+    public List<CityDTO> findlistCities() {
         List<CityEntity> allCities = repository.findAll();
         return convertList(allCities, CityDTO.class);
     }
 
-    public CityResponseDTO cityById(Long id) {
+    public CityResponseDTO findByIdcity(Long id) {
         CityEntity cityEntity = repository.findById(id)
                 .orElseThrow(() -> new RecordNotFoundException(new Object[]{id}));
         return convert(cityEntity, CityResponseDTO.class);

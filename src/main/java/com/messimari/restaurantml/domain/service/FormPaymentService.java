@@ -1,10 +1,13 @@
 package com.messimari.restaurantml.domain.service;
 
 import com.messimari.restaurantml.api.model.dto.FormPaymentDTO;
+import com.messimari.restaurantml.domain.exception.EntityInUseException;
 import com.messimari.restaurantml.domain.exception.RecordNotFoundException;
+import com.messimari.restaurantml.domain.model.CityEntity;
 import com.messimari.restaurantml.domain.model.FormPaymentEntity;
 import com.messimari.restaurantml.domain.repository.FormPaymentRepository;
 import lombok.AllArgsConstructor;
+import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -23,7 +26,7 @@ public class FormPaymentService {
         return convertList(formsPaymentsEntity, FormPaymentDTO.class);
     }
 
-    public void registerFormPayment(FormPaymentDTO formPaymentDTO){
+    public void createFormPayment(FormPaymentDTO formPaymentDTO){
         FormPaymentEntity formPayment = convert(formPaymentDTO, FormPaymentEntity.class);
         repository.save(formPayment);
     }
@@ -31,5 +34,22 @@ public class FormPaymentService {
     public FormPaymentDTO findByIdFromPayment(Long id) {
         FormPaymentEntity formPaymentEntity = repository.findById(id).orElseThrow(() -> new RecordNotFoundException(new Object[]{"Form Payment de id " + id}));
         return convert(formPaymentEntity, FormPaymentDTO.class);
+    }
+
+    public void updateFormPayment(Long id, FormPaymentDTO formPaymentDTO) {
+        FormPaymentEntity formPaymentEntity = repository.findById(id)
+                .orElseThrow(() -> new RecordNotFoundException(new Object[]{"Form Payment de id " + id}));
+        convert(formPaymentDTO, formPaymentEntity);
+        repository.save(formPaymentEntity);
+    }
+
+    public void deleteFormPayment(Long id, FormPaymentDTO formPaymentDTO) {
+        FormPaymentEntity formPaymentEntity = repository.findById(id)
+                .orElseThrow(() -> new RecordNotFoundException(new Object[]{"Form Payment de id " + id}));
+        try {
+            repository.delete(formPaymentEntity);
+        } catch (DataIntegrityViolationException dt) {
+            throw new EntityInUseException();
+        }
     }
 }

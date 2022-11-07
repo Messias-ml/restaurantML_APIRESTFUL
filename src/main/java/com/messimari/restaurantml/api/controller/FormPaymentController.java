@@ -29,7 +29,19 @@ public class FormPaymentController {
 
     @ResponseStatus(HttpStatus.CREATED)
     @PostMapping
-    private void registerFormPayment(@RequestBody FormPaymentDTO formPaymentDTO){
-        service.registerFormPayment(formPaymentDTO);
+    private void createFormPayment(@RequestBody FormPaymentDTO formPaymentDTO){
+        service.createFormPayment(formPaymentDTO);
+    }
+
+    @ResponseStatus(HttpStatus.NO_CONTENT)
+    @PutMapping("/{id}")
+    private void updateFormPayment(@PathVariable Long id, @RequestBody FormPaymentDTO formPaymentDTO){
+        service.updateFormPayment(id, formPaymentDTO);
+    }
+
+    @ResponseStatus(HttpStatus.NO_CONTENT)
+    @PutMapping("/{id}")
+    private void deleteFormPayment(@PathVariable Long id, @RequestBody FormPaymentDTO formPaymentDTO){
+        service.deleteFormPayment(id, formPaymentDTO);
     }
 }
