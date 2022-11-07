@@ -1,9 +1,11 @@
 package com.messimari.restaurantml.api.model.dto.restaurant;
 
+import com.messimari.restaurantml.api.model.dto.FormPaymentDTO;
 import com.messimari.restaurantml.api.model.dto.address.AddressDTO;
 import lombok.Data;
 
 import java.math.BigDecimal;
+import java.util.List;
 
 @Data
 public class RestaurantResponseWithAddressDTO {
@@ -15,4 +17,6 @@ public class RestaurantResponseWithAddressDTO {
     private String nameKitchen;
 
     private AddressDTO address;
+
+    private List<FormPaymentDTO> formPayment;
 }

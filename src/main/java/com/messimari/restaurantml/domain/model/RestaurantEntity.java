@@ -42,7 +42,7 @@ public class RestaurantEntity {
     @JoinColumn(name = "ID_KITCHEN", nullable = false)
     private KitchenEntity kitchen;
 
-    @ManyToMany(cascade = CascadeType.ALL)
+    @ManyToMany
     @JoinTable(name = "Form_Payment_Restaurant",
             joinColumns = @JoinColumn(name = "ID_RESTAURANT"),
             inverseJoinColumns = @JoinColumn(name = "ID_FORM_PAYMENT"))

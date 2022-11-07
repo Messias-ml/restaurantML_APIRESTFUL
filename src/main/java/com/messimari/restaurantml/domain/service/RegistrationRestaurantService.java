@@ -14,6 +14,7 @@ import com.messimari.restaurantml.domain.repository.KitchenRepository;
 import com.messimari.restaurantml.domain.repository.RestaurantRepository;
 import lombok.AllArgsConstructor;
 import org.springframework.dao.DataIntegrityViolationException;
+import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.stereotype.Service;
 import org.springframework.util.CollectionUtils;
 
@@ -29,12 +30,10 @@ public class RegistrationRestaurantService {
 
     private RestaurantRepository repository;
 
-    private KitchenRepository kitchenRepository;
-
-    private FormPaymentRepository formPaymentRepository;
-
-    public RestaurantEntity createRestaurant(RestaurantRequestDTO restaurant) {
-        return repository.save(getRestaurantEntity(restaurant));
+    public void createRestaurant(RestaurantRequestDTO restaurant) {
+        RestaurantEntity restaurantEntity = convert(restaurant, RestaurantEntity.class);
+        restaurantEntity.setId(null);
+        repository.save(restaurantEntity);
     }
 
     public List<RestaurantResponseDTO> findListRestaurants() {
@@ -48,51 +47,22 @@ public class RegistrationRestaurantService {
         return convert(restaurantEntity, RestaurantResponseWithAddressDTO.class);
     }
 
-    public RestaurantEntity updateRestaurant(Long id, RestaurantRequestDTO updatedRestaurant) {
+    public void updateRestaurant(Long id, RestaurantRequestDTO updatedRestaurant) {
         RestaurantEntity restaurantEntity = repository.findById(id)
                 .orElseThrow(() -> new RecordNotFoundException(new Object[]{id}));
-        convert(restaurantEntity, updatedRestaurant);
-        //return repository.save(restaurantEntity);
-        return restaurantEntity;
+        restaurantEntity.setKitchen(new KitchenEntity());
+        convert(updatedRestaurant, restaurantEntity);
+        restaurantEntity.setId(id);
+        repository.save(restaurantEntity);
     }
 
     public void deleteRestaurant(Long id) {
         try {
-            repository.delete(getRestaurantById(id));
+            repository.deleteById(id);
         } catch (DataIntegrityViolationException dt) {
             throw new EntityInUseException();
+        }catch (EmptyResultDataAccessException empty){
+            throw new RecordNotFoundException(new Object[]{id});
         }
-    }
-
-    private RestaurantEntity getRestaurantById(Long id) {
-        return repository.findById(id)
-                .orElseThrow(() -> new RecordNotFoundException(new Object[]{id}));
-    }
-
-    private RestaurantEntity getRestaurantEntity(RestaurantRequestDTO restaurant) {
-        KitchenEntity kitchenEntity = getKitchenOfRestaurant(restaurant);
-        RestaurantEntity restaurantEntity = convert(restaurant, RestaurantEntity.class);
-        List<IdFormPayment> idFormPayment = restaurant.getIdFormPayment();
-        verifyFormPaymentAndSetInRestaurant(restaurantEntity, idFormPayment);
-        restaurantEntity.setKitchen(kitchenEntity);
-        return restaurantEntity;
-    }
-
-    private void verifyFormPaymentAndSetInRestaurant(RestaurantEntity restaurantEntity, List<IdFormPayment> idFormPayment) {
-        if (!CollectionUtils.isEmpty(idFormPayment)) {
-            List<FormPaymentEntity> formPaymentOfRestaurant = idFormPayment
-                    .stream()
-                    .map(fp -> formPaymentRepository.findById(fp.getId())
-                            .orElseThrow(() -> new RecordNotFoundException(new Object[]{"Form Payment de id " + fp.getId()})))
-                    .collect(Collectors.toList());
-            restaurantEntity.setFormPayment(formPaymentOfRestaurant);
-        }
-    }
-
-    private KitchenEntity getKitchenOfRestaurant(RestaurantRequestDTO restaurant) {
-        Long idKitchen = restaurant.getIdKitchen();
-        KitchenEntity kitchenEntity = kitchenRepository.findById(idKitchen)
-                .orElseThrow(() -> new RecordNotFoundException(new Object[]{idKitchen}));
-        return kitchenEntity;
     }
 }

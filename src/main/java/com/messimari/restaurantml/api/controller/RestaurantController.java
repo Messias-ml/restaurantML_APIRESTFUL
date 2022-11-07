@@ -20,8 +20,8 @@ public class RestaurantController {
 
     @ResponseStatus(HttpStatus.CREATED)
     @PostMapping
-    public RestaurantEntity createRestaurant(@RequestBody RestaurantRequestDTO restaurant){
-        return service.createRestaurant(restaurant);
+    public void createRestaurant(@RequestBody RestaurantRequestDTO restaurant){
+        service.createRestaurant(restaurant);
     }
 
     @ResponseStatus(HttpStatus.OK)
@@ -36,11 +36,11 @@ public class RestaurantController {
         return service.findByIdRestaurant(id);
     }
 
-    @ResponseStatus(HttpStatus.OK)
+    @ResponseStatus(HttpStatus.NO_CONTENT)
     @PutMapping("/{id}")
-    public RestaurantEntity updateRestaurant(@PathVariable Long id,
+    public void updateRestaurant(@PathVariable Long id,
                                        @RequestBody RestaurantRequestDTO updatedRestaurant){
-        return service.updateRestaurant(id, updatedRestaurant);
+        service.updateRestaurant(id, updatedRestaurant);
     }
 
     @ResponseStatus(HttpStatus.NO_CONTENT)
