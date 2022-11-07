@@ -1,25 +1,19 @@
 package com.messimari.restaurantml.domain.service;
 
-import com.messimari.restaurantml.api.model.dto.restaurant.IdFormPayment;
 import com.messimari.restaurantml.api.model.dto.restaurant.RestaurantRequestDTO;
 import com.messimari.restaurantml.api.model.dto.restaurant.RestaurantResponseDTO;
 import com.messimari.restaurantml.api.model.dto.restaurant.RestaurantResponseWithAddressDTO;
 import com.messimari.restaurantml.domain.exception.EntityInUseException;
 import com.messimari.restaurantml.domain.exception.RecordNotFoundException;
-import com.messimari.restaurantml.domain.model.FormPaymentEntity;
 import com.messimari.restaurantml.domain.model.KitchenEntity;
 import com.messimari.restaurantml.domain.model.RestaurantEntity;
-import com.messimari.restaurantml.domain.repository.FormPaymentRepository;
-import com.messimari.restaurantml.domain.repository.KitchenRepository;
 import com.messimari.restaurantml.domain.repository.RestaurantRepository;
 import lombok.AllArgsConstructor;
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.stereotype.Service;
-import org.springframework.util.CollectionUtils;
 
 import java.util.List;
-import java.util.stream.Collectors;
 
 import static com.messimari.restaurantml.core.ModelMapperConvert.convert;
 import static com.messimari.restaurantml.core.ModelMapperConvert.convertList;

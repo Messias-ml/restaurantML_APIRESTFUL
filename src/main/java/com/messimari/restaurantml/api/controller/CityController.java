@@ -20,8 +20,8 @@ public class CityController {
 
     @ResponseStatus(HttpStatus.CREATED)
     @PostMapping
-    public CityEntity createCity(@RequestBody CityEntity city){
-        return service.createCity(city);
+    public void createCity(@RequestBody CityRequestDTO city){
+        service.createCity(city);
     }
 
     @ResponseStatus(HttpStatus.OK)

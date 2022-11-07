@@ -8,14 +8,14 @@ import com.messimari.restaurantml.domain.exception.RecordNotFoundException;
 import com.messimari.restaurantml.domain.model.CityEntity;
 import com.messimari.restaurantml.domain.model.StateEntity;
 import com.messimari.restaurantml.domain.repository.CityRepository;
-import com.messimari.restaurantml.domain.repository.StateRepository;
 import lombok.AllArgsConstructor;
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
 
-import static com.messimari.restaurantml.core.ModelMapperConvert.*;
+import static com.messimari.restaurantml.core.ModelMapperConvert.convert;
+import static com.messimari.restaurantml.core.ModelMapperConvert.convertList;
 
 @AllArgsConstructor
 @Service
@@ -23,11 +23,10 @@ public class RegistrationCityService {
 
     private CityRepository repository;
 
-    private StateRepository stateRepository;
-
-    public CityEntity createCity(CityEntity restaurant) {
-        setStateInCityById(restaurant);
-        return repository.save(restaurant);
+    public void createCity(CityRequestDTO cityRequestDTO) {
+        CityEntity cityEntity = convert(cityRequestDTO, CityEntity.class);
+        cityEntity.setId(null);
+        repository.save(cityEntity);
     }
 
     public List<CityDTO> findlistCities() {
@@ -59,12 +58,4 @@ public class RegistrationCityService {
             throw new EntityInUseException();
         }
     }
-
-    private void setStateInCityById(CityEntity city) {
-        Long idState = city.getState().getId();
-        StateEntity stateEntity = stateRepository.findById(idState)
-                .orElseThrow(() -> new RecordNotFoundException(new Object[]{idState}));
-        city.setState(stateEntity);
-    }
-
 }
