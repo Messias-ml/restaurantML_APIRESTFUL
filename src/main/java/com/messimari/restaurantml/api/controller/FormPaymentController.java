@@ -40,7 +40,7 @@ public class FormPaymentController {
     }
 
     @ResponseStatus(HttpStatus.NO_CONTENT)
-    @PutMapping("/{id}")
+    @DeleteMapping("/{id}")
     private void deleteFormPayment(@PathVariable Long id, @RequestBody FormPaymentDTO formPaymentDTO){
         service.deleteFormPayment(id, formPaymentDTO);
     }
