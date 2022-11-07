@@ -18,20 +18,20 @@ public class StateController {
 
     @ResponseStatus(HttpStatus.CREATED)
     @PostMapping
-    public StateEntity registerState(@RequestBody @Valid StateEntity state){
-        return service.registerState(state);
+    public StateEntity createState(@RequestBody @Valid StateEntity state){
+        return service.createState(state);
     }
 
     @ResponseStatus(HttpStatus.OK)
     @GetMapping
-    public List<StateEntity> listStates(){
-        return service.listStates();
+    public List<StateEntity> findListStates(){
+        return service.findListStates();
     }
 
     @ResponseStatus(HttpStatus.OK)
     @GetMapping("/{id}")
-    public StateEntity listStateById(@PathVariable("id") Long id){
-        return service.listStateById(id);
+    public StateEntity findByIdState(@PathVariable("id") Long id){
+        return service.findByIdState(id);
     }
 
     @ResponseStatus(HttpStatus.OK)

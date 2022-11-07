@@ -35,16 +35,16 @@ public class RegistrationRestaurantService {
 
     private FormPaymentRepository formPaymentRepository;
 
-    public RestaurantEntity registerRestaurant(RestaurantRequestDTO restaurant) {
+    public RestaurantEntity createRestaurant(RestaurantRequestDTO restaurant) {
         return repository.save(getRestaurantEntity(restaurant));
     }
 
-    public List<RestaurantResponseDTO> searchListRestaurants() {
+    public List<RestaurantResponseDTO> findListRestaurants() {
         List<RestaurantEntity> allRestaurants = repository.findAll();
         return convertList(allRestaurants, RestaurantResponseDTO.class);
     }
 
-    public RestaurantResponseWithAddressDTO findRestaurantById(Long id) {
+    public RestaurantResponseWithAddressDTO findByIdRestaurant(Long id) {
         RestaurantEntity restaurantEntity = repository.findById(id)
                 .orElseThrow(() -> new RecordNotFoundException(new Object[]{id}));
         return convert(restaurantEntity, RestaurantResponseWithAddressDTO.class);

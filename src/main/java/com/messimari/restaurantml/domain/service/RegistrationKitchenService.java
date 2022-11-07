@@ -25,15 +25,15 @@ public class RegistrationKitchenService {
 
     private KitchenRepository repository;
 
-    public void registerKitchen(KitchenDTO kitchenDTO) {
+    public void createKitchen(KitchenDTO kitchenDTO) {
         repository.save(convert(kitchenDTO, KitchenEntity.class));
     }
 
-    public List<KitchenDTO> listKitchens() {
+    public List<KitchenDTO> findListKitchens() {
         return convertList(repository.findAll(), KitchenDTO.class);
     }
 
-    public AllKitchenDTO listKitchenById(Long id) {
+    public AllKitchenDTO findByIdKitchen(Long id) {
         KitchenEntity kitchenEntity = findById(id);
         return convert(kitchenEntity, AllKitchenDTO.class);
     }

@@ -17,28 +17,28 @@ public class RegistrationStateService {
 
     private StateRepository repository;
 
-    public StateEntity registerState(StateEntity state) {
+    public StateEntity createState(StateEntity state) {
         return repository.save(state);
     }
 
-    public List<StateEntity> listStates() {
+    public List<StateEntity> findListStates() {
         return repository.findAll();
     }
 
-    public StateEntity listStateById(Long id) {
+    public StateEntity findByIdState(Long id) {
         return repository.findById(id)
                 .orElseThrow(() -> new RecordNotFoundException(new Object[]{id}));
     }
 
     public StateEntity updateState(Long id, StateEntity updatedState) {
-        StateEntity stateEntity = listStateById(id);
+        StateEntity stateEntity = findByIdState(id);
         BeanUtils.copyProperties(updatedState, stateEntity, "id");
         return repository.save(stateEntity);
     }
 
     public void deleteState(Long id) {
         try {
-            repository.delete(listStateById(id));
+            repository.delete(findByIdState(id));
         }catch (DataIntegrityViolationException dt){
             throw new EntityInUseException();
         }

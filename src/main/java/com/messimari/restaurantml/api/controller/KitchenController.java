@@ -2,7 +2,6 @@ package com.messimari.restaurantml.api.controller;
 
 import com.messimari.restaurantml.api.model.dto.kitchen.AllKitchenDTO;
 import com.messimari.restaurantml.api.model.dto.kitchen.KitchenDTO;
-import com.messimari.restaurantml.domain.model.KitchenEntity;
 import com.messimari.restaurantml.domain.service.RegistrationKitchenService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -20,20 +19,20 @@ public class KitchenController {
 
     @ResponseStatus(HttpStatus.CREATED)
     @PostMapping
-    public void registerKitchen(@RequestBody @Valid KitchenDTO kitchen){
-        service.registerKitchen(kitchen);
+    public void createKitchen(@RequestBody @Valid KitchenDTO kitchen){
+        service.createKitchen(kitchen);
     }
 
     @ResponseStatus(HttpStatus.OK)
     @GetMapping
-    public List<KitchenDTO> listKitchens(){
-        return service.listKitchens();
+    public List<KitchenDTO> findListKitchens(){
+        return service.findListKitchens();
     }
 
     @ResponseStatus(HttpStatus.OK)
     @GetMapping("/{id}")
-    public AllKitchenDTO listKitchenById(@PathVariable("id") Long id){
-        return service.listKitchenById(id);
+    public AllKitchenDTO findByIdKitchen(@PathVariable("id") Long id){
+        return service.findByIdKitchen(id);
     }
 
     @ResponseStatus(HttpStatus.NO_CONTENT)

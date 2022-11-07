@@ -20,20 +20,20 @@ public class RestaurantController {
 
     @ResponseStatus(HttpStatus.CREATED)
     @PostMapping
-    public RestaurantEntity registerRestaurant(@RequestBody RestaurantRequestDTO restaurant){
-        return service.registerRestaurant(restaurant);
+    public RestaurantEntity createRestaurant(@RequestBody RestaurantRequestDTO restaurant){
+        return service.createRestaurant(restaurant);
     }
 
     @ResponseStatus(HttpStatus.OK)
     @GetMapping
-    public List<RestaurantResponseDTO> listRestaurants(){
-        return service.searchListRestaurants();
+    public List<RestaurantResponseDTO> findListRestaurants(){
+        return service.findListRestaurants();
     }
 
     @ResponseStatus(HttpStatus.OK)
     @GetMapping("/{id}")
-    public RestaurantResponseWithAddressDTO listRestaurantById(@PathVariable("id") Long id){
-        return service.findRestaurantById(id);
+    public RestaurantResponseWithAddressDTO findByIdRestaurant(@PathVariable("id") Long id){
+        return service.findByIdRestaurant(id);
     }
 
     @ResponseStatus(HttpStatus.OK)
