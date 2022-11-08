@@ -50,3 +50,6 @@ insert into Form_Payment (ID_FORM_PAYMENT, DESCRIPTION) values (2, 'Cartão de d
 insert into Form_Payment (ID_FORM_PAYMENT, DESCRIPTION) values (3, 'Dinheiro');
 
 insert into Form_Payment_Restaurant (ID_RESTAURANT, ID_FORM_PAYMENT) values (1, 1), (1, 2), (1, 3), (2, 3), (3, 2), (3, 3);
+
+insert into group_collection (name) values ('grupo1');
+insert into permition_group (id_group, id_permition) values (1, 1);

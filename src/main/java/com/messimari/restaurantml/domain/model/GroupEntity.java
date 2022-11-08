@@ -22,5 +22,5 @@ public class GroupEntity {
     @JoinTable(name = "Permition_Group",
             joinColumns = @JoinColumn(name = "ID_GROUP", nullable = false),
             inverseJoinColumns = @JoinColumn(name = "ID_PERMITION", nullable = false))
-    private List<PermitionEntity> permition;
+    private List<PermitionEntity> permissions;
 }

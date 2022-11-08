@@ -42,7 +42,7 @@ public class FormPaymentService {
         repository.save(formPaymentEntity);
     }
 
-    public void deleteFormPayment(Long id, FormPaymentDTO formPaymentDTO) {
+    public void deleteFormPayment(Long id) {
         FormPaymentEntity formPaymentEntity = repository.findById(id)
                 .orElseThrow(() -> new RecordNotFoundException(new Object[]{"Form Payment de id " + id}));
         try {
