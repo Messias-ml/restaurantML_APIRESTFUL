@@ -6,7 +6,6 @@ import com.messimari.restaurantml.api.model.dto.city.CityResponseDTO;
 import com.messimari.restaurantml.domain.exception.EntityInUseException;
 import com.messimari.restaurantml.domain.exception.RecordNotFoundException;
 import com.messimari.restaurantml.domain.model.CityEntity;
-import com.messimari.restaurantml.domain.model.StateEntity;
 import com.messimari.restaurantml.domain.repository.CityRepository;
 import lombok.AllArgsConstructor;
 import org.springframework.dao.DataIntegrityViolationException;
@@ -41,10 +40,7 @@ public class RegistrationCityService {
     }
 
     public void updateCity(Long id, CityRequestDTO updatedCity) {
-        CityEntity cityEntity = repository.findById(id)
-                .orElseThrow(() -> new RecordNotFoundException(new Object[]{id}));
-        cityEntity.setState(new StateEntity());
-        cityEntity = convert(updatedCity, CityEntity.class);
+        CityEntity cityEntity = convert(updatedCity, CityEntity.class);
         cityEntity.setId(id);
         repository.save(cityEntity);
     }
