@@ -2,7 +2,6 @@ package com.messimari.restaurantml.core;
 
 import com.messimari.restaurantml.domain.exception.RecordNotFoundException;
 import org.modelmapper.ModelMapper;
-import org.springframework.beans.BeanUtils;
 import org.springframework.util.CollectionUtils;
 import org.springframework.util.ObjectUtils;
 
