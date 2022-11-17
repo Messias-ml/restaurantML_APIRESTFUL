@@ -57,6 +57,6 @@ public class RestaurantEntity {
     private OffsetDateTime updateDate;
 
     @JsonIgnore
-    @OneToMany(mappedBy = "restaurant")
+    @OneToMany(mappedBy = "restaurant", cascade = CascadeType.ALL)
     private List<ProductEntity> product;
 }
