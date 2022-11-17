@@ -1,6 +1,6 @@
 package com.messimari.restaurantml.api.controller;
 
-import com.messimari.restaurantml.api.model.dto.FormPayment.FormPaymentDTO;
+import com.messimari.restaurantml.api.model.dto.formPayment.FormPaymentDTO;
 import com.messimari.restaurantml.domain.service.RegistrationRestaurantService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;

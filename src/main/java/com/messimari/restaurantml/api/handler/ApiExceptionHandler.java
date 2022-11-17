@@ -1,6 +1,7 @@
 package com.messimari.restaurantml.api.handler;
 
 import com.messimari.restaurantml.domain.exception.EntityInUseException;
+import com.messimari.restaurantml.domain.exception.RecordNotExists;
 import com.messimari.restaurantml.domain.exception.RecordNotFoundException;
 import lombok.AllArgsConstructor;
 import org.springframework.context.MessageSource;
@@ -30,6 +31,14 @@ public class ApiExceptionHandler extends ResponseEntityExceptionHandler {
         Problem problem = getProblem(recordNotFoundException.getMessage(), recordNotFoundException.getObjects(),
                 nameErro, HttpStatus.NOT_FOUND.value());
         return ResponseEntity.status(HttpStatus.NOT_FOUND.value()).body(problem);
+    }
+
+    @ExceptionHandler(RecordNotExists.class)
+    public ResponseEntity<Problem> hendlerRecordNotExists(RecordNotExists recordNotExist) {
+        String nameErro = "Registro inexistente";
+        Problem problem = getProblem(recordNotExist.getMessage(), recordNotExist.getObjects(),
+                nameErro, HttpStatus.BAD_REQUEST.value());
+        return ResponseEntity.status(HttpStatus.BAD_REQUEST.value()).body(problem);
     }
 
     @ExceptionHandler(EntityInUseException.class)
@@ -64,14 +73,14 @@ public class ApiExceptionHandler extends ResponseEntityExceptionHandler {
         problemWithField.setFieldValidation(fieldValidations);
         return ResponseEntity.status(HttpStatus.BAD_REQUEST.value()).body(problemWithField);
     }
-/*
+
     @ExceptionHandler(Exception.class)
     private ResponseEntity<Problem> handlerErroException(Exception ex) {
         String nameErro = "Erro inesperado";
         Integer status = HttpStatus.INTERNAL_SERVER_ERROR.value();
         Problem problem = getProblem("ErrorException", null, nameErro, status);
         return ResponseEntity.status(status).body(problem);
-    }*/
+    }
 
     private Problem getProblem(String message, Object[] objects, String nameErro, Integer status) {
         String detail = getMessage(objects, message.concat(".detail"));

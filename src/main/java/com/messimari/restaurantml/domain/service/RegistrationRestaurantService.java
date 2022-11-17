@@ -1,6 +1,6 @@
 package com.messimari.restaurantml.domain.service;
 
-import com.messimari.restaurantml.api.model.dto.FormPayment.FormPaymentDTO;
+import com.messimari.restaurantml.api.model.dto.formPayment.FormPaymentDTO;
 import com.messimari.restaurantml.api.model.dto.restaurant.RestaurantRequestDTO;
 import com.messimari.restaurantml.api.model.dto.restaurant.RestaurantResponseDTO;
 import com.messimari.restaurantml.api.model.dto.restaurant.RestaurantResponseWithAddressDTO;

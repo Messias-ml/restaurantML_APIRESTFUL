@@ -1,6 +1,6 @@
 package com.messimari.restaurantml.domain.service;
 
-import com.messimari.restaurantml.api.model.dto.FormPayment.FormPaymentDTO;
+import com.messimari.restaurantml.api.model.dto.formPayment.FormPaymentDTO;
 import com.messimari.restaurantml.domain.exception.EntityInUseException;
 import com.messimari.restaurantml.domain.exception.RecordNotFoundException;
 import com.messimari.restaurantml.domain.model.FormPaymentEntity;

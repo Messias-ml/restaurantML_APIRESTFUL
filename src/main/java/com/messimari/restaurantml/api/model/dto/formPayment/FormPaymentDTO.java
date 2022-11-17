@@ -1,4 +1,4 @@
-package com.messimari.restaurantml.api.model.dto.FormPayment;
+package com.messimari.restaurantml.api.model.dto.formPayment;
 
 import lombok.Data;
 

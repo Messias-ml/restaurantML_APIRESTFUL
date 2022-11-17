@@ -24,7 +24,7 @@ public class ModelMapperConvert {
     public static <T> T convert(Object objectWithContent, T objectNecessary) {
         if (ObjectUtils.isEmpty(objectWithContent)) {
             throw new RecordNotFoundException(new Object[]{"objeto com conteúdo dentro da conversão do modelMap"});
-        }else {
+        } else {
             ModelMapper modelMapper = modelMapper();
             modelMapper.map(objectWithContent, objectNecessary);
             return objectNecessary;
@@ -33,14 +33,14 @@ public class ModelMapperConvert {
 
     public static <T> List<T> convertList(List<?> listWithContent, Class<T> classCopy) {
         if (CollectionUtils.isEmpty(listWithContent)) {
-        throw new RecordNotExists(new Object[]{"'lista com conteúdo', dentro da conversão do modelMap"});
-    } else {
-        ModelMapper modelMapper = modelMapper();
-        return listWithContent.stream()
-                .map(c -> modelMapper.map(c, classCopy))
-                .collect(Collectors.toList());
+            throw new RecordNotExists(new Object[]{"que contém uma lista de conteúdos"});
+        } else {
+            ModelMapper modelMapper = modelMapper();
+            return listWithContent.stream()
+                    .map(c -> modelMapper.map(c, classCopy))
+                    .collect(Collectors.toList());
+        }
     }
-}
 
 
 

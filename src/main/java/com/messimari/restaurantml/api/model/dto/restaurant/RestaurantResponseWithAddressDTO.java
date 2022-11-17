@@ -1,6 +1,6 @@
 package com.messimari.restaurantml.api.model.dto.restaurant;
 
-import com.messimari.restaurantml.api.model.dto.FormPayment.FormPaymentDTO;
+import com.messimari.restaurantml.api.model.dto.formPayment.FormPaymentDTO;
 import com.messimari.restaurantml.api.model.dto.address.AddressDTO;
 import lombok.Data;
 
