@@ -3,12 +3,14 @@ package com.messimari.restaurantml.api.controller;
 import com.messimari.restaurantml.api.model.dto.group.GroupCompleteDTO;
 import com.messimari.restaurantml.api.model.dto.group.GroupNameDTO;
 import com.messimari.restaurantml.api.model.dto.group.GroupRegisterDTO;
+import com.messimari.restaurantml.api.model.dto.permition.PermitionResponseDTO;
 import com.messimari.restaurantml.domain.service.GroupService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.Set;
 
 @RestController
 @RequestMapping("/groups")
@@ -27,6 +29,12 @@ public class GroupController {
     @GetMapping("/{id}")
     private GroupCompleteDTO findByIdGroup(@PathVariable Long id){
         return service.findByIdGroup(id);
+    }
+
+    @ResponseStatus(HttpStatus.OK)
+    @GetMapping("/{id}/permitions")
+    private Set<PermitionResponseDTO> findByIdPermitionOfGroup(@PathVariable Long id){
+        return service.findByIdPermitionOfGroup(id);
     }
 
     @ResponseStatus(HttpStatus.CREATED)

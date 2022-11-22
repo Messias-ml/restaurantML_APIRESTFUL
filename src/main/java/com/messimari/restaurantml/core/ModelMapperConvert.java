@@ -6,7 +6,9 @@ import org.modelmapper.ModelMapper;
 import org.springframework.util.CollectionUtils;
 import org.springframework.util.ObjectUtils;
 
+import java.util.Collection;
 import java.util.List;
+import java.util.Set;
 import java.util.stream.Collectors;
 
 import static com.messimari.restaurantml.core.ModelMapperConfig.modelMapper;
@@ -31,7 +33,7 @@ public class ModelMapperConvert {
         }
     }
 
-    public static <T> List<T> convertList(List<?> listWithContent, Class<T> classCopy) {
+    public static <T> List<T> convertList(Collection<?> listWithContent, Class<T> classCopy) {
         if (CollectionUtils.isEmpty(listWithContent)) {
             throw new RecordNotExists(new Object[]{"que contém uma lista de conteúdos"});
         } else {
@@ -39,6 +41,17 @@ public class ModelMapperConvert {
             return listWithContent.stream()
                     .map(c -> modelMapper.map(c, classCopy))
                     .collect(Collectors.toList());
+        }
+    }
+
+    public static <T> Set<T> convertSet(Collection<?> listWithContent, Class<T> classCopy) {
+        if (CollectionUtils.isEmpty(listWithContent)) {
+            throw new RecordNotExists(new Object[]{"que contém uma lista de conteúdos"});
+        } else {
+            ModelMapper modelMapper = modelMapper();
+            return listWithContent.stream()
+                    .map(c -> modelMapper.map(c, classCopy))
+                    .collect(Collectors.toSet());
         }
     }
 

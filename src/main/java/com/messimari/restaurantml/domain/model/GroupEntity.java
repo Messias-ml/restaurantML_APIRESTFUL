@@ -3,7 +3,9 @@ package com.messimari.restaurantml.domain.model;
 import lombok.Data;
 
 import javax.persistence.*;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 @Data
 @Entity
@@ -22,5 +24,5 @@ public class GroupEntity {
     @JoinTable(name = "Permition_Group",
             joinColumns = @JoinColumn(name = "ID_GROUP", nullable = false),
             inverseJoinColumns = @JoinColumn(name = "ID_PERMITION", nullable = false))
-    private List<PermitionEntity> permissions;
+    private Set<PermitionEntity> permissions = new HashSet<>();
 }
