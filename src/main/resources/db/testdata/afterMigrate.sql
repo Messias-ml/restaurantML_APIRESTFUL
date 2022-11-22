@@ -1,3 +1,4 @@
+
 set foreign_key_checks = 0;
 
 delete from city;
@@ -51,5 +52,12 @@ insert into Form_Payment (ID_FORM_PAYMENT, DESCRIPTION) values (3, 'Dinheiro');
 
 insert into Form_Payment_Restaurant (ID_RESTAURANT, ID_FORM_PAYMENT) values (1, 1), (1, 2), (1, 3), (2, 3), (3, 2), (3, 3);
 
-insert into group_collection (name) values ('grupo1');
+insert into group_collection (name) values ('USER');
 insert into permition_group (id_group, id_permition) values (1, 1);
+
+insert into group_collection (name) values ('MANAGER');
+insert into permition_group (id_group, id_permition) values (2, 1);
+insert into permition_group (id_group, id_permition) values (2, 2);
+
+insert into user_entity (creation_date, email, name, password) values (utc_timestamp, 'messias.teste@hotmail.com', 'Messias', '1234');
+insert into user_group (id_user, id_group) values (1, 1);

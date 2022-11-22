@@ -1,17 +1,24 @@
 package com.messimari.restaurantml.domain.service;
 
+import com.messimari.restaurantml.api.model.dto.group.GroupIdDTO;
+import com.messimari.restaurantml.api.model.dto.group.GroupNameDTO;
+import com.messimari.restaurantml.api.model.dto.group.ListGroupIdDTO;
 import com.messimari.restaurantml.api.model.dto.user.UserCompleteDTO;
 import com.messimari.restaurantml.api.model.dto.user.UserRegisterDTO;
 import com.messimari.restaurantml.api.model.dto.user.UserBasicDTO;
 import com.messimari.restaurantml.domain.exception.EntityInUseException;
+import com.messimari.restaurantml.domain.exception.RecordNotExists;
 import com.messimari.restaurantml.domain.exception.RecordNotFoundException;
+import com.messimari.restaurantml.domain.model.GroupEntity;
 import com.messimari.restaurantml.domain.model.UserEntity;
 import com.messimari.restaurantml.domain.repository.UserRepository;
 import lombok.AllArgsConstructor;
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.stereotype.Service;
+import org.springframework.util.CollectionUtils;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import static com.messimari.restaurantml.core.ModelMapperConvert.convert;
@@ -52,8 +59,25 @@ public class UserService {
             repository.deleteById(id);
         } catch (DataIntegrityViolationException dt) {
             throw new EntityInUseException();
-        }catch (EmptyResultDataAccessException empty){
+        } catch (EmptyResultDataAccessException empty) {
             throw new RecordNotFoundException(new Object[]{id});
         }
+    }
+
+    public List<GroupNameDTO> findByIdGroupOfUser(Long id) {
+        List<GroupEntity> groupsEntity = repository.findById(id)
+                .orElseThrow(() -> new RecordNotFoundException(new Object[]{id})).getGroups();
+        if (CollectionUtils.isEmpty(groupsEntity)) {
+            throw new RecordNotExists(new Object[]{"Groups do user"});
+        } else {
+            return convertList(groupsEntity, GroupNameDTO.class);
+        }
+    }
+
+    public void updateGroupOfUser(Long id, ListGroupIdDTO groups) {
+        UserEntity userEntity = repository.findById(id)
+                .orElseThrow(() -> new RecordNotFoundException(new Object[]{id}));
+        userEntity.setGroups(new ArrayList<>());
+        repository.save(convert(groups, userEntity));
     }
 }
