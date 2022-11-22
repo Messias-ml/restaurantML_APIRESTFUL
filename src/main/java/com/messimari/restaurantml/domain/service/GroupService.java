@@ -3,7 +3,7 @@ package com.messimari.restaurantml.domain.service;
 import com.messimari.restaurantml.api.model.dto.group.GroupCompleteDTO;
 import com.messimari.restaurantml.api.model.dto.group.GroupNameDTO;
 import com.messimari.restaurantml.api.model.dto.group.GroupRegisterDTO;
-import com.messimari.restaurantml.api.model.dto.permition.PermitionResponseDTO;
+import com.messimari.restaurantml.api.model.dto.permition.PermitionDTO;
 import com.messimari.restaurantml.domain.exception.EntityInUseException;
 import com.messimari.restaurantml.domain.exception.RecordNotFoundException;
 import com.messimari.restaurantml.domain.model.GroupEntity;
@@ -13,7 +13,6 @@ import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.stereotype.Service;
 
-import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
@@ -42,10 +41,10 @@ public class GroupService {
         return convert(group, GroupCompleteDTO.class);
     }
 
-    public Set<PermitionResponseDTO> findByIdPermitionOfGroup(Long id) {
+    public Set<PermitionDTO> findByIdPermitionOfGroup(Long id) {
         GroupEntity group = repository.findById(id)
                 .orElseThrow(() -> new RecordNotFoundException(new Object[]{id}));
-        return convertSet(group.getPermissions(), PermitionResponseDTO.class);
+        return convertSet(group.getPermissions(), PermitionDTO.class);
     }
 
     public void updateGroup(Long id, GroupRegisterDTO groupToUpdate) {
