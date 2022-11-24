@@ -1,7 +1,7 @@
 package com.messimari.restaurantml.api.model.dto.restaurant;
 
-import com.messimari.restaurantml.api.model.dto.address.AddressDTO;
 import com.messimari.restaurantml.api.model.dto.address.AddressRegisterDTO;
+import com.messimari.restaurantml.api.model.dto.user.UserIdDTO;
 import lombok.Data;
 
 import javax.validation.Valid;
@@ -28,5 +28,7 @@ public class RestaurantRequestDTO {
     @Valid
     @NotNull
     private AddressRegisterDTO address;
+
+    private List<UserIdDTO> owner;
 
 }

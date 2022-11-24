@@ -13,6 +13,7 @@ delete from restaurant;
 delete from form_payment_restaurant;
 delete from user_entity;
 delete from user_group;
+delete from user_restaurant;
 
 set foreign_key_checks = 1;
 
@@ -61,3 +62,5 @@ insert into permition_group (id_group, id_permition) values (2, 2);
 
 insert into user_entity (creation_date, email, name, password) values (utc_timestamp, 'messias.teste@hotmail.com', 'Messias', '1234');
 insert into user_group (id_user, id_group) values (1, 1);
+
+insert into user_restaurant (id_restaurant, id_user) values (1, 1);

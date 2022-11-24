@@ -4,15 +4,18 @@ import com.messimari.restaurantml.api.model.dto.formPayment.FormPaymentDTO;
 import com.messimari.restaurantml.api.model.dto.restaurant.RestaurantRequestDTO;
 import com.messimari.restaurantml.api.model.dto.restaurant.RestaurantResponseDTO;
 import com.messimari.restaurantml.api.model.dto.restaurant.RestaurantResponseWithAddressDTO;
+import com.messimari.restaurantml.api.model.dto.user.UserBasicDTO;
+import com.messimari.restaurantml.api.model.dto.user.UserOwnerIdDTO;
 import com.messimari.restaurantml.domain.exception.EntityInUseException;
+import com.messimari.restaurantml.domain.exception.RecordNotExists;
 import com.messimari.restaurantml.domain.exception.RecordNotFoundException;
 import com.messimari.restaurantml.domain.model.KitchenEntity;
 import com.messimari.restaurantml.domain.model.RestaurantEntity;
-import com.messimari.restaurantml.domain.repository.FormPaymentRepository;
 import com.messimari.restaurantml.domain.repository.RestaurantRepository;
 import lombok.AllArgsConstructor;
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.dao.EmptyResultDataAccessException;
+import org.springframework.orm.jpa.JpaObjectRetrievalFailureException;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
@@ -27,12 +30,28 @@ public class RegistrationRestaurantService {
 
     private RestaurantRepository repository;
 
-    private FormPaymentRepository formPaymentRepository;
-
     public void createRestaurant(RestaurantRequestDTO restaurant) {
         RestaurantEntity restaurantEntity = convert(restaurant, RestaurantEntity.class);
         restaurantEntity.setId(null);
-        repository.save(restaurantEntity);
+        try {
+            repository.save(restaurantEntity);
+        } catch (DataIntegrityViolationException ex) {
+            if (ex.getCause().getCause().getMessage().contains("form_payment")) {
+                throw new RecordNotExists(new Object[]{"id FormPayment"});
+            }
+            throw new RecordNotExists(new Object[]{"id owner"});
+        }
+    }
+
+    public void associateOwnersWithRestaurant(UserOwnerIdDTO owners, Long id) {
+        RestaurantEntity restaurantEntity = repository.findById(id)
+                .orElseThrow(() -> new RecordNotFoundException(new Object[]{id}));
+        convert(owners, restaurantEntity);
+        try {
+            repository.save(restaurantEntity);
+        } catch (JpaObjectRetrievalFailureException ex) {
+            throw new RecordNotExists(new Object[]{"id owner"});
+        }
     }
 
     public List<RestaurantResponseDTO> findListRestaurants() {
@@ -56,9 +75,19 @@ public class RegistrationRestaurantService {
         RestaurantEntity restaurantEntity = repository.findById(id)
                 .orElseThrow(() -> new RecordNotFoundException(new Object[]{id}));
         restaurantEntity.setKitchen(new KitchenEntity());
+        restaurantEntity.setFormPayment(List.of());
+        restaurantEntity.setOwner(List.of());
         convert(updatedRestaurant, restaurantEntity);
         restaurantEntity.setId(id);
-        repository.save(restaurantEntity);
+        try {
+            repository.save(restaurantEntity);
+        } catch (JpaObjectRetrievalFailureException ex) {
+            if (ex.getMessage().contains("FormPaymentEntity")) {
+                throw new RecordNotExists(new Object[]{"id FormPayment"});
+            } else {
+                throw new RecordNotExists(new Object[]{"id owner"});
+            }
+        }
     }
 
     public void deleteRestaurant(Long id) {
@@ -72,8 +101,30 @@ public class RegistrationRestaurantService {
     }
 
     public void deleteFormPaymentOfRestaurant(Long id) {
-        RestaurantEntity restaurantEntity = repository.findById(id).orElseThrow(() -> new RecordNotFoundException(new Object[]{id}));
+        RestaurantEntity restaurantEntity = repository.findById(id)
+                .orElseThrow(() -> new RecordNotFoundException(new Object[]{id}));
         restaurantEntity.setFormPayment(new ArrayList<>());
         repository.save(restaurantEntity);
+    }
+
+    public List<UserBasicDTO> findByIdOwnersOfRestaurant(Long id) {
+        RestaurantEntity restaurantEntity = repository.findByIdWithOwner(id)
+                .orElseThrow(() -> new RecordNotFoundException(new Object[]{id}));
+        return convertList(restaurantEntity.getOwner(), UserBasicDTO.class);
+    }
+
+    public void updateOwnersOfRestaurant(Long id, UserOwnerIdDTO owners) {
+        RestaurantEntity restaurantEntity = repository.findById(id)
+                .orElseThrow(() -> new RecordNotFoundException(new Object[]{id}));
+        restaurantEntity.setOwner(List.of());
+        try {
+            repository.save(convert(owners, restaurantEntity));
+        } catch (JpaObjectRetrievalFailureException ex) {
+            throw new RecordNotExists(new Object[]{"id owner"});
+        }
+    }
+
+    public void disassociateOwnersOfRestaurant(Long id) {
+        repository.deleteOwners(id);
     }
 }

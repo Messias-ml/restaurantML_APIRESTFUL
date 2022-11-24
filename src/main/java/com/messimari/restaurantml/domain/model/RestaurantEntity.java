@@ -1,17 +1,13 @@
 package com.messimari.restaurantml.domain.model;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
-import lombok.Builder;
 import lombok.Data;
-import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
 import org.hibernate.annotations.CreationTimestamp;
-import org.hibernate.annotations.Fetch;
 import org.hibernate.annotations.UpdateTimestamp;
 
 import javax.persistence.*;
 import java.math.BigDecimal;
-import java.time.LocalDateTime;
 import java.time.OffsetDateTime;
 import java.util.ArrayList;
 import java.util.List;
@@ -20,7 +16,6 @@ import java.util.List;
 @Entity
 @Table(name = "Restaurant")
 @NoArgsConstructor
-
 public class RestaurantEntity {
 
     @Id
@@ -42,11 +37,17 @@ public class RestaurantEntity {
     @JoinColumn(name = "ID_KITCHEN", nullable = false)
     private KitchenEntity kitchen;
 
-    @ManyToMany
+    @ManyToMany(fetch = FetchType.LAZY)
     @JoinTable(name = "Form_Payment_Restaurant",
             joinColumns = @JoinColumn(name = "ID_RESTAURANT"),
             inverseJoinColumns = @JoinColumn(name = "ID_FORM_PAYMENT"))
     private List<FormPaymentEntity> formPayment = new ArrayList<>();
+
+    @ManyToMany(fetch = FetchType.LAZY)
+    @JoinTable(name = "user_Restaurant",
+            joinColumns = @JoinColumn(name = "ID_RESTAURANT"),
+            inverseJoinColumns = @JoinColumn(name = "ID_USER"))
+    private List<UserEntity> owner = new ArrayList<>();
 
     @CreationTimestamp
     @Column(nullable = false, columnDefinition = "datetime")
