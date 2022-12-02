@@ -3,11 +3,9 @@ package com.messimari.restaurantml.domain.service;
 import com.messimari.restaurantml.api.model.dto.product.ProductCompleteDTO;
 import com.messimari.restaurantml.api.model.dto.product.ProductRequestDTO;
 import com.messimari.restaurantml.api.model.dto.product.ProductResponseDTO;
-import com.messimari.restaurantml.domain.exception.EntityInUseException;
-import com.messimari.restaurantml.domain.exception.RecordNotExists;
+import com.messimari.restaurantml.domain.exception.RecordNotExistsException;
 import com.messimari.restaurantml.domain.exception.RecordNotFoundException;
 import com.messimari.restaurantml.domain.model.ProductEntity;
-import com.messimari.restaurantml.domain.model.RestaurantEntity;
 import com.messimari.restaurantml.domain.repository.ProductReposiroty;
 import com.messimari.restaurantml.domain.repository.RestaurantRepository;
 import lombok.AllArgsConstructor;
@@ -74,7 +72,7 @@ public class ProductService {
         try {
             productReposiroty.deleteById(id);
         }catch (EmptyResultDataAccessException ex){
-            throw new RecordNotExists(new Object[]{"de id "+id});
+            throw new RecordNotExistsException(new Object[]{"de id "+id});
         }
     }
 }

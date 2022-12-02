@@ -7,7 +7,7 @@ import javax.validation.constraints.Email;
 @Data
 public class UserBasicDTO {
 
-    private String name;
+    private String nameClient;
 
     @Email
     private String email;

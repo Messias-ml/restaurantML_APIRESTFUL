@@ -1,20 +1,24 @@
 package com.messimari.restaurantml.api.model.dto.demand;
 
+import com.messimari.restaurantml.api.model.dto.itemDemand.ItemDemandResentationDTO;
+import com.messimari.restaurantml.api.model.dto.user.UserBasicDTO;
 import com.messimari.restaurantml.domain.model.StatusDemand;
-import com.messimari.restaurantml.domain.model.UserEntity;
 import lombok.Data;
 
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
+import java.util.List;
 
 @Data
-public class demandDTO {
+public class DemandDTO {
 
     private Long id;
 
     private BigDecimal totalValue;
 
-    private UserEntity client;
+    private UserBasicDTO client;
+
+    private List<ItemDemandResentationDTO> items;
 
     private StatusDemand status;
 

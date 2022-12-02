@@ -1,14 +1,12 @@
 package com.messimari.restaurantml.domain.service;
 
 import com.messimari.restaurantml.api.model.dto.permition.PermitionDTO;
-import com.messimari.restaurantml.domain.exception.RecordNotExists;
+import com.messimari.restaurantml.domain.exception.RecordNotExistsException;
 import com.messimari.restaurantml.domain.model.PermitionEntity;
 import com.messimari.restaurantml.domain.repository.PermitionRepository;
 import lombok.AllArgsConstructor;
-import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 import org.springframework.util.ObjectUtils;
-import org.springframework.web.bind.annotation.ResponseStatus;
 
 import java.util.List;
 
@@ -23,7 +21,7 @@ public class PermitionService {
 
     public void createPermition(PermitionDTO permition) {
         if (ObjectUtils.isEmpty(permition)){
-            throw new RecordNotExists(new Object[]{"permition"});
+            throw new RecordNotExistsException(new Object[]{"permition"});
         }
         repository.save(convert(permition, PermitionEntity.class));
     }

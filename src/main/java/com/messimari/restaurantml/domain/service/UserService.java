@@ -1,13 +1,12 @@
 package com.messimari.restaurantml.domain.service;
 
-import com.messimari.restaurantml.api.model.dto.group.GroupIdDTO;
 import com.messimari.restaurantml.api.model.dto.group.GroupNameDTO;
 import com.messimari.restaurantml.api.model.dto.group.ListGroupIdDTO;
 import com.messimari.restaurantml.api.model.dto.user.UserCompleteDTO;
 import com.messimari.restaurantml.api.model.dto.user.UserRegisterDTO;
 import com.messimari.restaurantml.api.model.dto.user.UserBasicDTO;
 import com.messimari.restaurantml.domain.exception.EntityInUseException;
-import com.messimari.restaurantml.domain.exception.RecordNotExists;
+import com.messimari.restaurantml.domain.exception.RecordNotExistsException;
 import com.messimari.restaurantml.domain.exception.RecordNotFoundException;
 import com.messimari.restaurantml.domain.model.GroupEntity;
 import com.messimari.restaurantml.domain.model.UserEntity;
@@ -68,7 +67,7 @@ public class UserService {
         List<GroupEntity> groupsEntity = repository.findById(id)
                 .orElseThrow(() -> new RecordNotFoundException(new Object[]{id})).getGroups();
         if (CollectionUtils.isEmpty(groupsEntity)) {
-            throw new RecordNotExists(new Object[]{"Groups do user"});
+            throw new RecordNotExistsException(new Object[]{"Groups do user"});
         } else {
             return convertList(groupsEntity, GroupNameDTO.class);
         }

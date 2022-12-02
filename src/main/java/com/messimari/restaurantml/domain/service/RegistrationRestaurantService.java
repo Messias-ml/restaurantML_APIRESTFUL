@@ -7,7 +7,7 @@ import com.messimari.restaurantml.api.model.dto.restaurant.RestaurantResponseWit
 import com.messimari.restaurantml.api.model.dto.user.UserBasicDTO;
 import com.messimari.restaurantml.api.model.dto.user.UserOwnerIdDTO;
 import com.messimari.restaurantml.domain.exception.EntityInUseException;
-import com.messimari.restaurantml.domain.exception.RecordNotExists;
+import com.messimari.restaurantml.domain.exception.RecordNotExistsException;
 import com.messimari.restaurantml.domain.exception.RecordNotFoundException;
 import com.messimari.restaurantml.domain.model.KitchenEntity;
 import com.messimari.restaurantml.domain.model.RestaurantEntity;
@@ -37,9 +37,9 @@ public class RegistrationRestaurantService {
             repository.save(restaurantEntity);
         } catch (DataIntegrityViolationException ex) {
             if (ex.getCause().getCause().getMessage().contains("form_payment")) {
-                throw new RecordNotExists(new Object[]{"id FormPayment"});
+                throw new RecordNotExistsException(new Object[]{"id FormPayment"});
             }
-            throw new RecordNotExists(new Object[]{"id owner"});
+            throw new RecordNotExistsException(new Object[]{"id owner"});
         }
     }
 
@@ -50,7 +50,7 @@ public class RegistrationRestaurantService {
         try {
             repository.save(restaurantEntity);
         } catch (JpaObjectRetrievalFailureException ex) {
-            throw new RecordNotExists(new Object[]{"id owner"});
+            throw new RecordNotExistsException(new Object[]{"id owner"});
         }
     }
 
@@ -83,9 +83,9 @@ public class RegistrationRestaurantService {
             repository.save(restaurantEntity);
         } catch (JpaObjectRetrievalFailureException ex) {
             if (ex.getMessage().contains("FormPaymentEntity")) {
-                throw new RecordNotExists(new Object[]{"id FormPayment"});
+                throw new RecordNotExistsException(new Object[]{"id FormPayment"});
             } else {
-                throw new RecordNotExists(new Object[]{"id owner"});
+                throw new RecordNotExistsException(new Object[]{"id owner"});
             }
         }
     }
@@ -120,7 +120,7 @@ public class RegistrationRestaurantService {
         try {
             repository.save(convert(owners, restaurantEntity));
         } catch (JpaObjectRetrievalFailureException ex) {
-            throw new RecordNotExists(new Object[]{"id owner"});
+            throw new RecordNotExistsException(new Object[]{"id owner"});
         }
     }
 

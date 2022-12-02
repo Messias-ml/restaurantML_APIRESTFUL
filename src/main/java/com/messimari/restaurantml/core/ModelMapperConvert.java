@@ -1,6 +1,6 @@
 package com.messimari.restaurantml.core;
 
-import com.messimari.restaurantml.domain.exception.RecordNotExists;
+import com.messimari.restaurantml.domain.exception.RecordNotExistsException;
 import com.messimari.restaurantml.domain.exception.RecordNotFoundException;
 import org.modelmapper.ModelMapper;
 import org.springframework.util.CollectionUtils;
@@ -35,7 +35,7 @@ public class ModelMapperConvert {
 
     public static <T> List<T> convertList(Collection<?> listWithContent, Class<T> classCopy) {
         if (CollectionUtils.isEmpty(listWithContent)) {
-            throw new RecordNotExists(new Object[]{"que contém uma lista de conteúdos"});
+            throw new RecordNotExistsException(new Object[]{"que contém uma lista de conteúdos"});
         } else {
             ModelMapper modelMapper = modelMapper();
             return listWithContent.stream()
@@ -46,7 +46,7 @@ public class ModelMapperConvert {
 
     public static <T> Set<T> convertSet(Collection<?> listWithContent, Class<T> classCopy) {
         if (CollectionUtils.isEmpty(listWithContent)) {
-            throw new RecordNotExists(new Object[]{"que contém uma lista de conteúdos"});
+            throw new RecordNotExistsException(new Object[]{"que contém uma lista de conteúdos"});
         } else {
             ModelMapper modelMapper = modelMapper();
             return listWithContent.stream()
@@ -86,7 +86,7 @@ public class ModelMapperConvert {
 
     public static <T> T convertMap(Object objectWithContent, Class<T> classCopy){
         if (ObjectUtils.isEmpty(objectWithContent)) {
-            throw new RecordNotExists(new Object[]{objectWithContent.getClass().getName()});
+            throw new RecordNotExistsException(new Object[]{objectWithContent.getClass().getName()});
         }
         return getDesiredObject(objectWithContent, classCopy);
     }
@@ -94,7 +94,7 @@ public class ModelMapperConvert {
     public static <T> List<T> convertListMap(List<?> objectsWithContent, Class<T> classCopy){
         ModelMapper modelMapper = new ModelMapper();
         if (CollectionUtils.isEmpty(objectsWithContent)) {
-            throw new RecordNotExists(new Object[]{objectsWithContent.getClass().getName()});
+            throw new RecordNotExistsException(new Object[]{objectsWithContent.getClass().getName()});
         }
 
         return objectsWithContent.stream()

@@ -28,7 +28,7 @@ public class ProductEntity {
     @Column(nullable = false)
     private boolean active = true;
 
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "ID_RESTAURANT", nullable = false)
     @JsonIgnore
     private RestaurantEntity restaurant;

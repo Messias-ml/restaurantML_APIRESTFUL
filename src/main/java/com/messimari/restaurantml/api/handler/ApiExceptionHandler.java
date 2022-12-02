@@ -1,7 +1,8 @@
 package com.messimari.restaurantml.api.handler;
 
 import com.messimari.restaurantml.domain.exception.EntityInUseException;
-import com.messimari.restaurantml.domain.exception.RecordNotExists;
+import com.messimari.restaurantml.domain.exception.RecordNotExistRelationalException;
+import com.messimari.restaurantml.domain.exception.RecordNotExistsException;
 import com.messimari.restaurantml.domain.exception.RecordNotFoundException;
 import lombok.AllArgsConstructor;
 import org.springframework.context.MessageSource;
@@ -33,10 +34,18 @@ public class ApiExceptionHandler extends ResponseEntityExceptionHandler {
         return ResponseEntity.status(HttpStatus.NOT_FOUND.value()).body(problem);
     }
 
-    @ExceptionHandler(RecordNotExists.class)
-    public ResponseEntity<Problem> hendlerRecordNotExists(RecordNotExists recordNotExist) {
+    @ExceptionHandler(RecordNotExistsException.class)
+    public ResponseEntity<Problem> hendlerRecordNotExists(RecordNotExistsException recordNotExist) {
         String nameErro = "Registro inexistente";
         Problem problem = getProblem(recordNotExist.getMessage(), recordNotExist.getObjects(),
+                nameErro, HttpStatus.BAD_REQUEST.value());
+        return ResponseEntity.status(HttpStatus.BAD_REQUEST.value()).body(problem);
+    }
+
+    @ExceptionHandler(RecordNotExistRelationalException.class)
+    public ResponseEntity<Problem> hendlerRecordNotExistsRelactional(RecordNotExistRelationalException recordNotExistRelational) {
+        String nameErro = "Registro não existe na entidade";
+        Problem problem = getProblem(recordNotExistRelational.getMessage(), recordNotExistRelational.getObjects(),
                 nameErro, HttpStatus.BAD_REQUEST.value());
         return ResponseEntity.status(HttpStatus.BAD_REQUEST.value()).body(problem);
     }

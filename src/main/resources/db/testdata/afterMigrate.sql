@@ -14,6 +14,8 @@ delete from form_payment_restaurant;
 delete from user_entity;
 delete from user_group;
 delete from user_restaurant;
+delete from demand;
+delete from item_demand;
 
 set foreign_key_checks = 1;
 
@@ -26,6 +28,8 @@ alter table permition auto_increment = 1;
 alter table product auto_increment = 1;
 alter table restaurant auto_increment = 1;
 alter table user_entity auto_increment = 1;
+alter table demand auto_increment = 1;
+alter table item_demand auto_increment = 1;
 
 insert into Kitchen (ID_KITCHEN, NAME_KITCHEN) values (1, 'Tailandesa');
 insert into Kitchen (ID_KITCHEN, NAME_KITCHEN) values (2, 'Indiana');
@@ -64,3 +68,8 @@ insert into user_entity (creation_date, email, name, password) values (utc_times
 insert into user_group (id_user, id_group) values (1, 1);
 
 insert into user_restaurant (id_restaurant, id_user) values (1, 1);
+insert into product (active, name, description, price, id_restaurant) values (true,'comida japonesa', 'sushi e sashimi', 18.2, 2);
+insert into product (active, name, description, price, id_restaurant) values (true,'comida tailandeza', 'tailandeza foods', 12.2, 1);
+
+insert into demand (address_id_city, address_complement, address_neighborhood, address_number, address_patio, address_zip_cod, cancellation_date, id_client, confirmation_date, creation_date, delivery_date, id_form_payment, id_restaurant, status, subtotal, tax_frete, total_value) values (1, 'ap 103', 'Cidade Jardim', 2050,'Avenida Jucelino Kubscheck', 36507330, null, 1, null, utc_timestamp, null, 1, 1, 'CRIADO', 10.50, 2.40, 12.90);
+insert into item_demand (id_demand, observation, id_product, quantity, total_price, unitary_price) values (1, 'comida sofst', 1, 2, 40, 20);

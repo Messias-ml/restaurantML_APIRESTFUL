@@ -33,7 +33,7 @@ public class RestaurantEntity {
     @Column(name = "TAX_FRETE", nullable = false)
     private BigDecimal taxFrete;
 
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "ID_KITCHEN", nullable = false)
     private KitchenEntity kitchen;
 
