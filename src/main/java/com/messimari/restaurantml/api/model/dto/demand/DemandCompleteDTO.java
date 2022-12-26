@@ -1,7 +1,6 @@
 package com.messimari.restaurantml.api.model.dto.demand;
 
 import com.messimari.restaurantml.api.model.dto.address.AddressRegisterDTO;
-import com.messimari.restaurantml.api.model.dto.itemDemand.ItemDemandRequestDTO;
 import com.messimari.restaurantml.api.model.dto.itemDemand.ItemDemandToDemandDTO;
 import com.messimari.restaurantml.api.model.dto.restaurant.IdFormPayment;
 import com.messimari.restaurantml.api.model.dto.restaurant.IdRestaurantDTO;

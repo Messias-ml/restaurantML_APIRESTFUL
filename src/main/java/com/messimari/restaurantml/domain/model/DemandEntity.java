@@ -28,7 +28,7 @@ public class DemandEntity {
     @Embedded
     private Address address;
 
-    @OneToMany(mappedBy = "demand")
+    @OneToMany(mappedBy = "demand", cascade = CascadeType.ALL)
     private List<ItemDemandEntity> items = List.of();
 
     @ManyToOne
@@ -44,7 +44,7 @@ public class DemandEntity {
     private FormPaymentEntity formPayment;
 
     @Enumerated(EnumType.STRING)
-    private StatusDemand status;
+    private StatusDemand status = StatusDemand.CRIADO;
 
     @CreationTimestamp
     @Column(nullable = false, columnDefinition = "datetime")

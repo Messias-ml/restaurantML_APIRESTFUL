@@ -1,9 +1,6 @@
 package com.messimari.restaurantml.api.handler;
 
-import com.messimari.restaurantml.domain.exception.EntityInUseException;
-import com.messimari.restaurantml.domain.exception.RecordNotExistRelationalException;
-import com.messimari.restaurantml.domain.exception.RecordNotExistsException;
-import com.messimari.restaurantml.domain.exception.RecordNotFoundException;
+import com.messimari.restaurantml.domain.exception.*;
 import lombok.AllArgsConstructor;
 import org.springframework.context.MessageSource;
 import org.springframework.context.i18n.LocaleContextHolder;
@@ -32,6 +29,14 @@ public class ApiExceptionHandler extends ResponseEntityExceptionHandler {
         Problem problem = getProblem(recordNotFoundException.getMessage(), recordNotFoundException.getObjects(),
                 nameErro, HttpStatus.NOT_FOUND.value());
         return ResponseEntity.status(HttpStatus.NOT_FOUND.value()).body(problem);
+    }
+
+    @ExceptionHandler(BusinessException.class)
+    public ResponseEntity<Problem> hendlerBusinessException(BusinessException BusinessException) {
+        String nameErro = "Erro no formulario";
+        Problem problem = getProblem(BusinessException.getMessage(), BusinessException.getObjects(),
+                nameErro, HttpStatus.BAD_REQUEST.value());
+        return ResponseEntity.status(HttpStatus.BAD_REQUEST.value()).body(problem);
     }
 
     @ExceptionHandler(RecordNotExistsException.class)

@@ -71,5 +71,5 @@ insert into user_restaurant (id_restaurant, id_user) values (1, 1);
 insert into product (active, name, description, price, id_restaurant) values (true,'comida japonesa', 'sushi e sashimi', 18.2, 2);
 insert into product (active, name, description, price, id_restaurant) values (true,'comida tailandeza', 'tailandeza foods', 12.2, 1);
 
-insert into demand (address_id_city, address_complement, address_neighborhood, address_number, address_patio, address_zip_cod, cancellation_date, id_client, confirmation_date, creation_date, delivery_date, id_form_payment, id_restaurant, status, subtotal, tax_frete, total_value) values (1, 'ap 103', 'Cidade Jardim', 2050,'Avenida Jucelino Kubscheck', 36507330, null, 1, null, utc_timestamp, null, 1, 1, 'CRIADO', 10.50, 2.40, 12.90);
-insert into item_demand (id_demand, observation, id_product, quantity, total_price, unitary_price) values (1, 'comida sofst', 1, 2, 40, 20);
+INSERT INTO demand (`id_demand`,`subtotal`,`tax_frete`,`total_value`,`ID_RESTAURANT`,`ID_CLIENT`,`ID_FORM_PAYMENT`,`address_complement`,`address_neighborhood`,`address_number`,`address_patio`,`address_zip_cod`,`address_id_city`,`status`,`creation_date`,`confirmation_date`,`cancellation_date`,`delivery_date`) VALUES (1,48.60,10.00,58.60,1,1,2,'ap 103','Cidade Jardim',2050,'Avenida Jucelino Kubscheck','38400-999',1,'CRIADO','2022-12-05 21:03:50',NULL,NULL,NULL);
+INSERT INTO item_demand (`id_item_demand`,`quantity`,`unitary_price`,`total_price`,`observation`,`id_demand`,`id_product`) VALUES (2,2,18.20,36.40,'sem wasabi',1,1);

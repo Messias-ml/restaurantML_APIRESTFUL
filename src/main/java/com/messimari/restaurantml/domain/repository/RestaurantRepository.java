@@ -30,5 +30,5 @@ public interface RestaurantRepository extends JpaRepository<RestaurantEntity, Lo
     */
     @Query("select r FROM RestaurantEntity r LEFT JOIN FETCH r.formPayment fp WHERE r.id = :idRestaurant AND "+
             "EXISTS (SELECT fp2 FROM FormPaymentEntity fp2 WHERE fp.id = :idFormPayment)")
-    Optional<RestaurantEntity> existFormPayment(Long idRestaurant, Long idFormPayment);
+    Optional<RestaurantEntity> existFormPaymentInRestaurant(Long idRestaurant, Long idFormPayment);
 }
