@@ -1,12 +1,15 @@
 package com.messimari.restaurantml.domain.service;
 
-import com.messimari.restaurantml.api.model.dto.PhotoDTO;
+import com.messimari.restaurantml.api.model.dto.photo.PhotoDTO;
+import com.messimari.restaurantml.api.model.dto.photo.PhotoResponseDTO;
 import com.messimari.restaurantml.api.model.dto.product.ProductCompleteDTO;
 import com.messimari.restaurantml.api.model.dto.product.ProductRequestDTO;
 import com.messimari.restaurantml.api.model.dto.product.ProductResponseDTO;
 import com.messimari.restaurantml.domain.exception.RecordNotExistsException;
 import com.messimari.restaurantml.domain.exception.RecordNotFoundException;
+import com.messimari.restaurantml.domain.model.PhotoEntity;
 import com.messimari.restaurantml.domain.model.ProductEntity;
+import com.messimari.restaurantml.domain.repository.PhotoRepository;
 import com.messimari.restaurantml.domain.repository.ProductReposiroty;
 import com.messimari.restaurantml.domain.repository.RestaurantRepository;
 import lombok.AllArgsConstructor;
@@ -28,6 +31,8 @@ public class ProductService {
     private final RestaurantRepository restaurantRepository;
 
     private final ProductReposiroty productReposiroty;
+
+    private final PhotoRepository photoRepository;
 
     public void createProductToRestaurant(ProductRequestDTO product) {
         try{
@@ -79,15 +84,28 @@ public class ProductService {
         }
     }
 
-    public void updatePhotoOfProduct(Long idProduct, PhotoDTO photo) {
-        productReposiroty.findById(idProduct).orElseThrow(() -> new RecordNotFoundException(new Object[]{"de id " + idProduct}));
-        String nameFile = "upload_".concat(photo.getPhoto().getOriginalFilename());
+    public PhotoResponseDTO updatePhotoOfProduct(Long idProduct, PhotoDTO photo) {
+        ProductEntity productEntity = productReposiroty.findById(idProduct).orElseThrow(() -> new RecordNotFoundException(new Object[]{"de id " + idProduct}));
+        /*String nameFile = "upload_".concat(photo.getPhoto().getOriginalFilename());
         Path filePhoto = Path.of("C:/Área de Trabalho", nameFile);
         try {
             photo.getPhoto().transferTo(filePhoto);
         } catch (IOException e) {
             e.printStackTrace();
-        }
+        }*/
+        PhotoEntity photoEntity = setPhotoEntity(productEntity, photo);
+        photoRepository.save(photoEntity);
+        return convert(photoEntity, PhotoResponseDTO.class);
+    }
+
+    private PhotoEntity setPhotoEntity(ProductEntity product, PhotoDTO photo) {
+        PhotoEntity photoEntity = new PhotoEntity();
+        photoEntity.setProductEntity(product);
+        photoEntity.setNameFile(photo.getPhoto().getOriginalFilename());
+        photoEntity.setDescription(photo.getDescription());
+        photoEntity.setContentType(photo.getPhoto().getContentType());
+        photoEntity.setSize(photo.getPhoto().getSize());
+        return photoEntity;
     }
 }
 

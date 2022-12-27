@@ -1,6 +1,7 @@
 package com.messimari.restaurantml.api.controller;
 
-import com.messimari.restaurantml.api.model.dto.PhotoDTO;
+import com.messimari.restaurantml.api.model.dto.photo.PhotoDTO;
+import com.messimari.restaurantml.api.model.dto.photo.PhotoResponseDTO;
 import com.messimari.restaurantml.api.model.dto.product.ProductCompleteDTO;
 import com.messimari.restaurantml.api.model.dto.product.ProductRequestDTO;
 import com.messimari.restaurantml.api.model.dto.product.ProductResponseDTO;
@@ -53,10 +54,10 @@ public class ProductOfRestaurantController {
         service.updateProductOfRestaurantById(id, product);
     }
 
-    @ResponseStatus(HttpStatus.NO_CONTENT)
+    @ResponseStatus(HttpStatus.OK)
     @PatchMapping(value = URI+"/{idProduct}", consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
-    public void updatePhotoOfProduct(@PathVariable Long idProduct, @Valid PhotoDTO photo){
-        service.updatePhotoOfProduct(idProduct, photo);
+    public PhotoResponseDTO updatePhotoOfProduct(@PathVariable Long idProduct, @Valid PhotoDTO photo){
+        return service.updatePhotoOfProduct(idProduct, photo);
     }
 
     @ResponseStatus(HttpStatus.NO_CONTENT)

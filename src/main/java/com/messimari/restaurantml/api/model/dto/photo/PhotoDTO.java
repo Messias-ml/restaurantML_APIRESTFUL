@@ -1,4 +1,4 @@
-package com.messimari.restaurantml.api.model.dto;
+package com.messimari.restaurantml.api.model.dto.photo;
 
 import com.messimari.restaurantml.core.validator.interfaces.FileContentType;
 import com.messimari.restaurantml.core.validator.interfaces.FileSize;
