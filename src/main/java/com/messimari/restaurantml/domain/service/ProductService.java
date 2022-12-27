@@ -80,7 +80,7 @@ public class ProductService {
     }
 
     public void updatePhotoOfProduct(Long idProduct, PhotoDTO photo) {
-        ProductEntity productEntity = productReposiroty.findById(idProduct).orElseThrow(() -> new RecordNotFoundException(new Object[]{"de id " + idProduct}));
+        productReposiroty.findById(idProduct).orElseThrow(() -> new RecordNotFoundException(new Object[]{"de id " + idProduct}));
         String nameFile = "upload_".concat(photo.getPhoto().getOriginalFilename());
         Path filePhoto = Path.of("C:/Área de Trabalho", nameFile);
         try {

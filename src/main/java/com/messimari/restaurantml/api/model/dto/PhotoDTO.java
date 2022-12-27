@@ -15,7 +15,7 @@ import javax.validation.constraints.NotNull;
 public class PhotoDTO {
 
     @NotNull
-    @FileSize(max = "10KB")
+    @FileSize(max = "500KB")
     @FileContentType(allowed = { MediaType.IMAGE_JPEG_VALUE, MediaType.IMAGE_PNG_VALUE })
     private MultipartFile photo;
 
