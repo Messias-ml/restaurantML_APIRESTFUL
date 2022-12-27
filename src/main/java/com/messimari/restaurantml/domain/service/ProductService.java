@@ -1,5 +1,6 @@
 package com.messimari.restaurantml.domain.service;
 
+import com.messimari.restaurantml.api.model.dto.PhotoDTO;
 import com.messimari.restaurantml.api.model.dto.product.ProductCompleteDTO;
 import com.messimari.restaurantml.api.model.dto.product.ProductRequestDTO;
 import com.messimari.restaurantml.api.model.dto.product.ProductResponseDTO;
@@ -13,6 +14,8 @@ import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.stereotype.Service;
 
+import java.io.IOException;
+import java.nio.file.Path;
 import java.util.List;
 
 import static com.messimari.restaurantml.core.ModelMapperConvert.convert;
@@ -75,4 +78,17 @@ public class ProductService {
             throw new RecordNotExistsException(new Object[]{"de id "+id});
         }
     }
+
+    public void updatePhotoOfProduct(Long idProduct, PhotoDTO photo) {
+        ProductEntity productEntity = productReposiroty.findById(idProduct).orElseThrow(() -> new RecordNotFoundException(new Object[]{"de id " + idProduct}));
+        String nameFile = "upload_".concat(photo.getPhoto().getOriginalFilename());
+        Path filePhoto = Path.of("C:/Área de Trabalho", nameFile);
+        try {
+            photo.getPhoto().transferTo(filePhoto);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
 }
+
+

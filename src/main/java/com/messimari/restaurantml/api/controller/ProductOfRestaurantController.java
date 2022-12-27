@@ -1,11 +1,13 @@
 package com.messimari.restaurantml.api.controller;
 
+import com.messimari.restaurantml.api.model.dto.PhotoDTO;
 import com.messimari.restaurantml.api.model.dto.product.ProductCompleteDTO;
 import com.messimari.restaurantml.api.model.dto.product.ProductRequestDTO;
 import com.messimari.restaurantml.api.model.dto.product.ProductResponseDTO;
 import com.messimari.restaurantml.domain.service.ProductService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
@@ -44,10 +46,17 @@ public class ProductOfRestaurantController {
         return service.findProductById(id);
     }
 
+
     @ResponseStatus(HttpStatus.NO_CONTENT)
     @PutMapping(URI+"/{id}")
     public void updateProductOfRestaurant(@PathVariable Long id, @RequestBody @Valid ProductRequestDTO product){
         service.updateProductOfRestaurantById(id, product);
+    }
+
+    @ResponseStatus(HttpStatus.NO_CONTENT)
+    @PatchMapping(value = URI+"/{idProduct}", consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
+    public void updatePhotoOfProduct(@PathVariable Long idProduct, @Valid PhotoDTO photo){
+        service.updatePhotoOfProduct(idProduct, photo);
     }
 
     @ResponseStatus(HttpStatus.NO_CONTENT)
