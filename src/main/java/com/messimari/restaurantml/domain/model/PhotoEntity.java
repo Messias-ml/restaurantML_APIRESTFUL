@@ -11,14 +11,15 @@ public class PhotoEntity {
 
     @Id
     @Column(name = "ID_PRODUCT")
-    private Long productId;
+    private Long id;
 
     @Column(name = "name_file")
     private String nameFile;
 
     @MapsId
     @OneToOne(fetch = FetchType.LAZY)
-    private ProductEntity productEntity;
+    @JoinColumn(name = "ID_PRODUCT")
+    private ProductEntity product;
 
     @Column(name = "description")
     private String description;

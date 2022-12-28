@@ -100,7 +100,7 @@ public class ProductService {
 
     private PhotoEntity setPhotoEntity(ProductEntity product, PhotoDTO photo) {
         PhotoEntity photoEntity = new PhotoEntity();
-        photoEntity.setProductEntity(product);
+        photoEntity.setProduct(product);
         photoEntity.setNameFile(photo.getPhoto().getOriginalFilename());
         photoEntity.setDescription(photo.getDescription());
         photoEntity.setContentType(photo.getPhoto().getContentType());
