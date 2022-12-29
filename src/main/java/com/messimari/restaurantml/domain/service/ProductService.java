@@ -12,6 +12,7 @@ import com.messimari.restaurantml.domain.model.ProductEntity;
 import com.messimari.restaurantml.domain.repository.PhotoRepository;
 import com.messimari.restaurantml.domain.repository.ProductReposiroty;
 import com.messimari.restaurantml.domain.repository.RestaurantRepository;
+import com.messimari.restaurantml.infrastructure.interfaces.PhotoStorage;
 import lombok.AllArgsConstructor;
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.dao.EmptyResultDataAccessException;
@@ -23,12 +24,15 @@ import java.util.List;
 
 import static com.messimari.restaurantml.core.ModelMapperConvert.convert;
 import static com.messimari.restaurantml.core.ModelMapperConvert.convertList;
+import static com.messimari.restaurantml.infrastructure.interfaces.PhotoStorage.*;
 
 @Service
 @AllArgsConstructor
 public class ProductService {
 
     private final RestaurantRepository restaurantRepository;
+
+    private final PhotoStorage photoStorage;
 
     private final ProductReposiroty productReposiroty;
 
@@ -86,22 +90,29 @@ public class ProductService {
 
     public PhotoResponseDTO updatePhotoOfProduct(Long idProduct, PhotoDTO photo) {
         ProductEntity productEntity = productReposiroty.findById(idProduct).orElseThrow(() -> new RecordNotFoundException(new Object[]{"de id " + idProduct}));
-        /*String nameFile = "upload_".concat(photo.getPhoto().getOriginalFilename());
-        Path filePhoto = Path.of("C:/Área de Trabalho", nameFile);
+        PhotoEntity photoEntity = setPhotoEntity(productEntity, photo);
+        if(photoRepository.existsById(idProduct)){
+            photoRepository.deleteById(idProduct);
+        }
+        photoRepository.save(photoEntity);
+        photoRepository.flush();
         try {
-            photo.getPhoto().transferTo(filePhoto);
+            NewPhoto newPhoto = NewPhoto.builder()
+                    .fileInput(photo.getPhoto().getInputStream())
+                    .nameFile(photoEntity.getNameFile())
+                    .build();
+            photoStorage.store(newPhoto);
         } catch (IOException e) {
             e.printStackTrace();
-        }*/
-        PhotoEntity photoEntity = setPhotoEntity(productEntity, photo);
-        photoRepository.save(photoEntity);
+        }
         return convert(photoEntity, PhotoResponseDTO.class);
     }
 
     private PhotoEntity setPhotoEntity(ProductEntity product, PhotoDTO photo) {
         PhotoEntity photoEntity = new PhotoEntity();
         photoEntity.setProduct(product);
-        photoEntity.setNameFile(photo.getPhoto().getOriginalFilename());
+        String nameFile = nameFile(product.getId(), photo.getPhoto().getOriginalFilename());
+        photoEntity.setNameFile(nameFile);
         photoEntity.setDescription(photo.getDescription());
         photoEntity.setContentType(photo.getPhoto().getContentType());
         photoEntity.setSize(photo.getPhoto().getSize());
