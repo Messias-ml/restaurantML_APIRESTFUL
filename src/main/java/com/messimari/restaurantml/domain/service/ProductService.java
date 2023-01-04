@@ -14,11 +14,13 @@ import com.messimari.restaurantml.domain.repository.ProductReposiroty;
 import com.messimari.restaurantml.domain.repository.RestaurantRepository;
 import com.messimari.restaurantml.infrastructure.interfaces.PhotoStorage;
 import lombok.AllArgsConstructor;
+import org.springframework.core.io.InputStreamResource;
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.stereotype.Service;
 
 import java.io.IOException;
+import java.io.InputStream;
 import java.nio.file.Path;
 import java.util.List;
 
@@ -39,12 +41,12 @@ public class ProductService {
     private final PhotoRepository photoRepository;
 
     public void createProductToRestaurant(ProductRequestDTO product) {
-        try{
+        try {
             ProductEntity productEntity = convert(product, ProductEntity.class);
             productEntity.setId(null);
             productReposiroty.save(productEntity);
-        }catch (DataIntegrityViolationException dt){
-            throw new RecordNotFoundException(new Object[]{"de id "+product.getIdRestaurant() + " do restaurant"});
+        } catch (DataIntegrityViolationException dt) {
+            throw new RecordNotFoundException(new Object[]{"de id " + product.getIdRestaurant() + " do restaurant"});
         }
     }
 
@@ -63,35 +65,35 @@ public class ProductService {
         ProductEntity productEntity = productReposiroty.findById(id)
                 .orElseThrow(() -> new RecordNotFoundException(new Object[]{id}));
         Long productIdRestaurant = productEntity.getRestaurant().getId();
-        if (!productIdRestaurant.equals(idRestaurant)){
-            throw new RecordNotFoundException(new Object[]{"de restaurant com o id "+idRestaurant+" não faz parte deste produto, portanto"});
+        if (!productIdRestaurant.equals(idRestaurant)) {
+            throw new RecordNotFoundException(new Object[]{"de restaurant com o id " + idRestaurant + " não faz parte deste produto, portanto"});
         }
         return convert(productEntity, ProductCompleteDTO.class);
     }
 
     public void updateProductOfRestaurantById(Long id, ProductRequestDTO product) {
-        try{
+        try {
             ProductEntity productEntity = productReposiroty.findById(id).orElseThrow(() -> new RecordNotFoundException(new Object[]{"de id " + id}));
             convert(product, productEntity);
             productEntity.setId(id);
             productReposiroty.save(productEntity);
-        }catch (DataIntegrityViolationException dt){
-            throw new RecordNotFoundException(new Object[]{"de id "+product.getIdRestaurant() + " do restaurant"});
+        } catch (DataIntegrityViolationException dt) {
+            throw new RecordNotFoundException(new Object[]{"de id " + product.getIdRestaurant() + " do restaurant"});
         }
     }
 
     public void deleteProductOfRestaurant(Long id) {
         try {
             productReposiroty.deleteById(id);
-        }catch (EmptyResultDataAccessException ex){
-            throw new RecordNotExistsException(new Object[]{"de id "+id});
+        } catch (EmptyResultDataAccessException ex) {
+            throw new RecordNotExistsException(new Object[]{"de id " + id});
         }
     }
 
     public PhotoResponseDTO updatePhotoOfProduct(Long idProduct, PhotoDTO photo) {
         ProductEntity productEntity = productReposiroty.findById(idProduct).orElseThrow(() -> new RecordNotFoundException(new Object[]{"de id " + idProduct}));
         PhotoEntity photoEntity = setPhotoEntity(productEntity, photo);
-        if(photoRepository.existsById(idProduct)){
+        if (photoRepository.existsById(idProduct)) {
             photoRepository.deleteById(idProduct);
         }
         photoRepository.save(photoEntity);
@@ -117,6 +119,27 @@ public class ProductService {
         photoEntity.setContentType(photo.getPhoto().getContentType());
         photoEntity.setSize(photo.getPhoto().getSize());
         return photoEntity;
+    }
+
+    public PhotoResponseDTO findPhotoProductById(Long id) {
+        PhotoEntity photoEntity = photoRepository.findById(id).orElseThrow(() -> new RecordNotFoundException(new Object[]{"photo de id " + id}));
+        return convert(photoEntity, PhotoResponseDTO.class);
+    }
+
+    public InputStream findPhotoProductByIdImage(Long id) throws IOException {
+        PhotoEntity photoEntity = photoRepository.findById(id).orElseThrow(() -> new RecordNotFoundException(new Object[]{"photo de id " + id}));
+        return photoStorage.recupereFile(photoEntity.getNameFile());
+    }
+
+    public void deletePhotoProduct(Long id) {
+        PhotoEntity photoEntity = photoRepository
+                .findById(id).orElseThrow(() -> new RecordNotFoundException(new Object[]{"photo de id " + id}));
+        try {
+            photoStorage.removeFile(photoEntity.getNameFile());
+            photoRepository.deleteById(id);
+        } catch (EmptyResultDataAccessException ex) {
+            throw new RecordNotExistsException(new Object[]{"de id " + id});
+        }
     }
 }
 

@@ -6,6 +6,7 @@ import org.springframework.stereotype.Component;
 import org.springframework.util.FileCopyUtils;
 
 import java.io.IOException;
+import java.io.InputStream;
 import java.nio.file.Files;
 import java.nio.file.Path;
 
@@ -13,17 +14,35 @@ import java.nio.file.Path;
 public class PhotoStorageImple implements PhotoStorage {
 
     @Value("${storage_file_project}")
-    private String locale;
+    private String directoryPhoto;
 
     @Override
     public void store(NewPhoto newPhoto) {
-        Path pathLocale = Path.of(locale);
-        Path filePath = pathLocale.resolve(newPhoto.getNameFile());
+        Path filePath = getFilePath(newPhoto.getNameFile());
         try {
-            if (filePath != null && Files.exists(filePath)){
-                Files.deleteIfExists(filePath);
-            }
+            Files.deleteIfExists(filePath);
             FileCopyUtils.copy(newPhoto.getFileInput(), Files.newOutputStream(filePath));
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
+    private Path getFilePath(String nameFile) {
+        Path directory = Path.of(directoryPhoto);
+        return directory.resolve(nameFile);
+    }
+
+    @Override
+    public InputStream recupereFile(String nameFile) throws IOException {
+        Path filePath = getFilePath(nameFile);
+        return Files.newInputStream(filePath);
+    }
+
+    @Override
+    public void removeFile(String nameFile) {
+        Path filePath = getFilePath(nameFile);
+        try {
+            Files.deleteIfExists(filePath);
         } catch (IOException e) {
             e.printStackTrace();
         }

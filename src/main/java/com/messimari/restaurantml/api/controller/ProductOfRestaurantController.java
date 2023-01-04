@@ -6,12 +6,16 @@ import com.messimari.restaurantml.api.model.dto.product.ProductCompleteDTO;
 import com.messimari.restaurantml.api.model.dto.product.ProductRequestDTO;
 import com.messimari.restaurantml.api.model.dto.product.ProductResponseDTO;
 import com.messimari.restaurantml.domain.service.ProductService;
+import jdk.jfr.ContentType;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.core.io.InputStreamResource;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
+import java.io.IOException;
+import java.io.InputStream;
 import java.util.List;
 
 @RestController
@@ -47,6 +51,18 @@ public class ProductOfRestaurantController {
         return service.findProductById(id);
     }
 
+    @ResponseStatus(HttpStatus.OK)
+    @GetMapping(value = URI+"/{id}/photo", produces = MediaType.APPLICATION_JSON_VALUE)
+    public PhotoResponseDTO findPhotoProductById(@PathVariable(value = "id") Long id){
+        return service.findPhotoProductById(id);
+    }
+
+    @ResponseStatus(HttpStatus.OK)
+    @GetMapping(value = URI+"/{id}/photo", produces = {MediaType.IMAGE_JPEG_VALUE, MediaType.IMAGE_PNG_VALUE})
+    public InputStreamResource findPhotoProductByIdImage(@PathVariable(value = "id") Long id) throws IOException {
+        return new InputStreamResource(service.findPhotoProductByIdImage(id));
+    }
+
 
     @ResponseStatus(HttpStatus.NO_CONTENT)
     @PutMapping(URI+"/{id}")
@@ -65,4 +81,11 @@ public class ProductOfRestaurantController {
     public void deleteProductOfRestaurant(@PathVariable Long id){
         service.deleteProductOfRestaurant(id);
     }
+
+    @ResponseStatus(HttpStatus.NO_CONTENT)
+    @DeleteMapping(URI+"/photo/{id}")
+    public void deletePhotoProduct(@PathVariable Long id){
+        service.deletePhotoProduct(id);
+    }
 }
+
