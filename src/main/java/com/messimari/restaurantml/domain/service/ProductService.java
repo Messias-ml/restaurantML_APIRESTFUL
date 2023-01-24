@@ -14,18 +14,16 @@ import com.messimari.restaurantml.domain.repository.ProductReposiroty;
 import com.messimari.restaurantml.domain.repository.RestaurantRepository;
 import com.messimari.restaurantml.infrastructure.interfaces.PhotoStorage;
 import lombok.AllArgsConstructor;
-import org.springframework.core.io.InputStreamResource;
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.stereotype.Service;
 
 import java.io.IOException;
 import java.io.InputStream;
-import java.nio.file.Path;
 import java.util.List;
 
-import static com.messimari.restaurantml.core.ModelMapperConvert.convert;
-import static com.messimari.restaurantml.core.ModelMapperConvert.convertList;
+import static com.messimari.restaurantml.core.modelMapper.ModelMapperConvert.convert;
+import static com.messimari.restaurantml.core.modelMapper.ModelMapperConvert.convertList;
 import static com.messimari.restaurantml.infrastructure.interfaces.PhotoStorage.*;
 
 @Service

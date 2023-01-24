@@ -20,8 +20,8 @@ import org.springframework.util.CollectionUtils;
 import java.util.ArrayList;
 import java.util.List;
 
-import static com.messimari.restaurantml.core.ModelMapperConvert.convert;
-import static com.messimari.restaurantml.core.ModelMapperConvert.convertList;
+import static com.messimari.restaurantml.core.modelMapper.ModelMapperConvert.convert;
+import static com.messimari.restaurantml.core.modelMapper.ModelMapperConvert.convertList;
 
 @Service
 @AllArgsConstructor

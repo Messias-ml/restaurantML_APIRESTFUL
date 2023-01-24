@@ -11,8 +11,8 @@ import org.springframework.stereotype.Service;
 
 import java.util.List;
 
-import static com.messimari.restaurantml.core.ModelMapperConvert.convert;
-import static com.messimari.restaurantml.core.ModelMapperConvert.convertList;
+import static com.messimari.restaurantml.core.modelMapper.ModelMapperConvert.convert;
+import static com.messimari.restaurantml.core.modelMapper.ModelMapperConvert.convertList;
 
 @Service
 @AllArgsConstructor

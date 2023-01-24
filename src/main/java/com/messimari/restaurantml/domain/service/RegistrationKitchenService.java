@@ -2,22 +2,18 @@ package com.messimari.restaurantml.domain.service;
 
 import com.messimari.restaurantml.api.model.dto.kitchen.AllKitchenDTO;
 import com.messimari.restaurantml.api.model.dto.kitchen.KitchenDTO;
-import com.messimari.restaurantml.core.ModelMapperConfig;
 import com.messimari.restaurantml.domain.exception.EntityInUseException;
 import com.messimari.restaurantml.domain.exception.RecordNotFoundException;
 import com.messimari.restaurantml.domain.model.KitchenEntity;
 import com.messimari.restaurantml.domain.repository.KitchenRepository;
 import lombok.AllArgsConstructor;
-import org.modelmapper.ModelMapper;
-import org.springframework.beans.BeanUtils;
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
 
-import static com.messimari.restaurantml.core.ModelMapperConfig.modelMapper;
-import static com.messimari.restaurantml.core.ModelMapperConvert.convert;
-import static com.messimari.restaurantml.core.ModelMapperConvert.convertList;
+import static com.messimari.restaurantml.core.modelMapper.ModelMapperConvert.convert;
+import static com.messimari.restaurantml.core.modelMapper.ModelMapperConvert.convertList;
 
 @AllArgsConstructor
 @Service

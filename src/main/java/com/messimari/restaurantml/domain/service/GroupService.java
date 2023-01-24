@@ -17,7 +17,7 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
-import static com.messimari.restaurantml.core.ModelMapperConvert.*;
+import static com.messimari.restaurantml.core.modelMapper.ModelMapperConvert.*;
 
 @Service
 @AllArgsConstructor

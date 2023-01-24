@@ -8,7 +8,7 @@ import lombok.AllArgsConstructor;
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.stereotype.Service;
 
-import static com.messimari.restaurantml.core.ModelMapperConvert.convert;
+import static com.messimari.restaurantml.core.modelMapper.ModelMapperConvert.convert;
 
 @Service
 @AllArgsConstructor

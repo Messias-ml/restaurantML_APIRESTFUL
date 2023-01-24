@@ -1,4 +1,4 @@
-package com.messimari.restaurantml.core;
+package com.messimari.restaurantml.core.modelMapper;
 
 import com.messimari.restaurantml.domain.exception.RecordNotExistsException;
 import com.messimari.restaurantml.domain.exception.RecordNotFoundException;
@@ -11,7 +11,7 @@ import java.util.List;
 import java.util.Set;
 import java.util.stream.Collectors;
 
-import static com.messimari.restaurantml.core.ModelMapperConfig.modelMapper;
+import static com.messimari.restaurantml.core.modelMapper.ModelMapperConfig.modelMapper;
 
 public class ModelMapperConvert {
 
