@@ -7,10 +7,12 @@ import com.messimari.restaurantml.domain.model.CityEntity;
 import com.messimari.restaurantml.domain.service.RegistrationCityService;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
+import io.swagger.annotations.ApiParam;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 
+import javax.validation.Valid;
 import java.util.List;
 
 @RestController
@@ -24,7 +26,7 @@ public class CityController {
     @ApiOperation("Create City")
     @ResponseStatus(HttpStatus.CREATED)
     @PostMapping
-    public void createCity(@RequestBody CityRequestDTO city){
+    public void createCity(@RequestBody @Valid CityRequestDTO city){
         service.createCity(city);
     }
 
@@ -38,22 +40,27 @@ public class CityController {
     @ApiOperation("find by id City")
     @ResponseStatus(HttpStatus.OK)
     @GetMapping("/{id}")
-    public CityResponseDTO findByIdcity (@PathVariable("id") Long id){
+    public CityResponseDTO findByIdcity (
+            @ApiParam("ID of City")
+            @PathVariable("id") Long id){
         return service.findByIdcity(id);
     }
 
     @ApiOperation("Update City")
     @ResponseStatus(HttpStatus.NO_CONTENT)
     @PutMapping("/{id}")
-    public void updateCity(@PathVariable Long id,
-                                             @RequestBody CityRequestDTO updatedCity){
+    public void updateCity(
+            @ApiParam("ID of City")
+            @PathVariable Long id, @RequestBody CityRequestDTO updatedCity){
         service.updateCity(id, updatedCity);
     }
 
     @ApiOperation("Delete City")
     @ResponseStatus(HttpStatus.NO_CONTENT)
     @DeleteMapping("/{id}")
-    public void deleteCity(@PathVariable("id") Long id){
+    public void deleteCity(
+            @ApiParam("ID of City")
+            @PathVariable("id") Long id){
         service.deleteCity(id);
     }
 }
