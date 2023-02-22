@@ -1,10 +1,16 @@
 package com.messimari.restaurantml.core.springfox;
 
+import com.fasterxml.classmate.TypeResolver;
+import com.messimari.restaurantml.api.handler.FieldValidation;
+import com.messimari.restaurantml.api.handler.Problem;
+import com.messimari.restaurantml.api.handler.ProblemWithField;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.http.HttpMethod;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
 import springfox.documentation.builders.ApiInfoBuilder;
+import springfox.documentation.builders.RepresentationBuilder;
 import springfox.documentation.builders.RequestHandlerSelectors;
 import springfox.documentation.builders.ResponseBuilder;
 import springfox.documentation.service.ApiInfo;
@@ -16,12 +22,16 @@ import springfox.documentation.spring.web.plugins.Docket;
 
 import java.util.Arrays;
 import java.util.List;
+import java.util.function.Consumer;
 
 
 @Configuration
 public class SpringFoxConfig {
     @Bean
     public Docket apiDocket() {
+        TypeResolver typeResolver = new TypeResolver();
+
+
         return new Docket(DocumentationType.OAS_30)
                 .select()
                 .apis(RequestHandlerSelectors.any())
@@ -30,6 +40,9 @@ public class SpringFoxConfig {
                 .globalResponses(HttpMethod.POST, globalPostResponseMessages())
                 .globalResponses(HttpMethod.PUT, globalPutResponseMessages())
                 .globalResponses(HttpMethod.DELETE, globalDeleteResponseMessages())
+                .additionalModels(typeResolver.resolve(Problem.class))
+                .additionalModels(typeResolver.resolve(FieldValidation.class))
+                .additionalModels(typeResolver.resolve(ProblemWithField.class))
                 .apiInfo(apiInfo())
                 .tags(new Tag("City", "City of state"));
     }
@@ -46,13 +59,29 @@ public class SpringFoxConfig {
                         .build(),
                 new ResponseBuilder()
                         .code(String.valueOf(HttpStatus.NOT_FOUND.value()))
+                        .representation(MediaType.APPLICATION_JSON)
+                        .apply(getProblemModelReference())
                         .description("Recurso não encontrado ou não existente.")
                         .build(),
                 new ResponseBuilder()
                         .code(String.valueOf(HttpStatus.BAD_REQUEST.value()))
+                        .representation(MediaType.APPLICATION_JSON)
+                        .apply(getProblemWithFieldModelReference())
                         .description("Envio de formulario com erro, não teve os preenchimentos necessario ou algo do tipo.")
                         .build()
         );
+    }
+
+    private Consumer<RepresentationBuilder> getProblemWithFieldModelReference() {
+        return r -> r.model(m -> m.name("ProblemWithField")
+                .referenceModel(ref -> ref.key(k -> k.qualifiedModelName(
+                        q -> q.name("ProblemWithField").namespace("com.messimari.restaurantml.api.handler")))));
+    }
+
+    private Consumer<RepresentationBuilder> getProblemModelReference() {
+        return r -> r.model(m -> m.name("Problem")
+                .referenceModel(ref -> ref.key(k -> k.qualifiedModelName(
+                        q -> q.name("Problem").namespace("com.messimari.restaurantml.api.handler")))));
     }
 
     private List<Response> globalPutResponseMessages() {
