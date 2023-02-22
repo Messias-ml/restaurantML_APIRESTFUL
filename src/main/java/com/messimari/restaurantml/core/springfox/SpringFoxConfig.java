@@ -117,10 +117,14 @@ public class SpringFoxConfig {
                         .build(),
                 new ResponseBuilder()
                         .code(String.valueOf(HttpStatus.NOT_FOUND.value()))
+                        .representation(MediaType.APPLICATION_JSON)
+                        .apply(getProblemWithFieldModelReference())
                         .description("Recurso não encontrado ou não existente.")
                         .build(),
                 new ResponseBuilder()
                         .code(String.valueOf(HttpStatus.BAD_REQUEST.value()))
+                        .representation(MediaType.APPLICATION_JSON)
+                        .apply(getProblemWithFieldModelReference())
                         .description("Envio de formulario com erro, não teve os preenchimentos necessario ou algo do tipo.")
                         .build()
         );
@@ -138,9 +142,13 @@ public class SpringFoxConfig {
                 new ResponseBuilder()
                         .code(String.valueOf(HttpStatus.NOT_FOUND.value()))
                         .description("Recurso não encontrado ou não existente.")
+                        .representation(MediaType.APPLICATION_JSON)
+                        .apply(getProblemWithFieldModelReference())
                         .build(),
                 new ResponseBuilder()
                         .code(String.valueOf(HttpStatus.BAD_REQUEST.value()))
+                        .representation(MediaType.APPLICATION_JSON)
+                        .apply(getProblemModelReference())
                         .description("Envio de formulario com erro, não teve os preenchimentos necessario ou algo do tipo.")
                         .build()
         );
