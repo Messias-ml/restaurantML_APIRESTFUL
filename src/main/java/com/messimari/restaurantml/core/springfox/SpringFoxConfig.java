@@ -4,6 +4,7 @@ import com.fasterxml.classmate.TypeResolver;
 import com.messimari.restaurantml.api.handler.FieldValidation;
 import com.messimari.restaurantml.api.handler.Problem;
 import com.messimari.restaurantml.api.handler.ProblemWithField;
+import com.messimari.restaurantml.domain.model.StatusDemand;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.http.HttpMethod;
@@ -34,17 +35,44 @@ public class SpringFoxConfig {
 
         return new Docket(DocumentationType.OAS_30)
                 .select()
-                .apis(RequestHandlerSelectors.any())
+                .apis(RequestHandlerSelectors.basePackage("com.messimari.restaurantml.api.controller"))
                 .build()
                 .globalResponses(HttpMethod.GET, globalGetResponseMessages())
                 .globalResponses(HttpMethod.POST, globalPostResponseMessages())
                 .globalResponses(HttpMethod.PUT, globalPutResponseMessages())
+                .globalResponses(HttpMethod.PATCH, globalPatchResponseMessages())
                 .globalResponses(HttpMethod.DELETE, globalDeleteResponseMessages())
                 .additionalModels(typeResolver.resolve(Problem.class))
                 .additionalModels(typeResolver.resolve(FieldValidation.class))
                 .additionalModels(typeResolver.resolve(ProblemWithField.class))
                 .apiInfo(apiInfo())
-                .tags(new Tag("City", "City of state"));
+                .tags(new Tag("City", "City of state"))
+                .tags(new Tag("Demand", "Demand of Restaurant"));
+    }
+
+    private List<Response> globalPatchResponseMessages() {
+        return Arrays.asList(
+                new ResponseBuilder()
+                        .code(String.valueOf(HttpStatus.INTERNAL_SERVER_ERROR.value()))
+                        .description("Erro interno do Servidor")
+                        .build(),
+                new ResponseBuilder()
+                        .code(String.valueOf(HttpStatus.NOT_ACCEPTABLE.value()))
+                        .description("Recurso não possui representação que pode ser aceita pelo consumidor")
+                        .build(),
+                new ResponseBuilder()
+                        .code(String.valueOf(HttpStatus.NOT_FOUND.value()))
+                        .representation(MediaType.APPLICATION_JSON)
+                        .apply(getProblemModelReference())
+                        .description("Recurso não encontrado ou não existente.")
+                        .build(),
+                new ResponseBuilder()
+                        .code(String.valueOf(HttpStatus.BAD_REQUEST.value()))
+                        .representation(MediaType.APPLICATION_JSON)
+                        .apply(getProblemWithFieldModelReference())
+                        .description("Envio de formulario com erro, não teve os preenchimentos necessario ou algo do tipo.")
+                        .build()
+        );
     }
 
     private List<Response> globalPostResponseMessages() {

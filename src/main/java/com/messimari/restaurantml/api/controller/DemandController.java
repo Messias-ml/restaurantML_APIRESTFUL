@@ -1,5 +1,6 @@
 package com.messimari.restaurantml.api.controller;
 
+import com.messimari.restaurantml.api.controller.openAPI.DemandControllerOpenAPI;
 import com.messimari.restaurantml.api.model.dto.demand.DemandCompleteDTO;
 import com.messimari.restaurantml.api.model.dto.demand.DemandDTO;
 import com.messimari.restaurantml.api.model.dto.demand.DemandToRestaurantDTO;
@@ -14,7 +15,7 @@ import java.util.List;
 
 @RestController
 @RequestMapping("/demand")
-public class DemandController {
+public class DemandController implements DemandControllerOpenAPI {
 
     @Autowired
     private DemandService service;
@@ -27,8 +28,8 @@ public class DemandController {
 
     @GetMapping("/restaurant/{id}")
     @ResponseStatus(HttpStatus.OK)
-    public List<DemandToRestaurantDTO> findDemandByIdRestaurant(@PathVariable Long id){
-        return service.findDemandByIdRestaurant(id);
+    public List<DemandToRestaurantDTO> findAllDemandByIdRestaurant(@PathVariable Long id){
+        return service.findAllDemandByIdRestaurant(id);
     }
 
     @GetMapping("/{id}")

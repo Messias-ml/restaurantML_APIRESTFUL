@@ -6,6 +6,7 @@ import com.messimari.restaurantml.api.model.dto.restaurant.IdFormPayment;
 import com.messimari.restaurantml.api.model.dto.restaurant.IdRestaurantDTO;
 import com.messimari.restaurantml.api.model.dto.user.UserIdDTO;
 import com.messimari.restaurantml.domain.model.StatusDemand;
+import io.swagger.annotations.ApiModel;
 import lombok.Data;
 
 import javax.validation.Valid;
@@ -14,6 +15,7 @@ import java.math.BigDecimal;
 import java.util.List;
 
 @Data
+@ApiModel("Demand Complete")
 public class DemandCompleteDTO {
 
     @NotNull

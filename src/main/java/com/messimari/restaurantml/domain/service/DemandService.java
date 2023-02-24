@@ -33,7 +33,7 @@ public class DemandService {
 
     private final ProductReposiroty productReposiroty;
 
-    public List<DemandToRestaurantDTO> findDemandByIdRestaurant(Long id) {
+    public List<DemandToRestaurantDTO> findAllDemandByIdRestaurant(Long id) {
         List<DemandEntity> allDemandByIdRestaurant = repository.findAllByIdRestaurant(id);
         return convertList(allDemandByIdRestaurant, DemandToRestaurantDTO.class);
     }
