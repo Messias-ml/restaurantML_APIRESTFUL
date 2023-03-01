@@ -7,13 +7,14 @@ import com.messimari.restaurantml.api.model.dto.city.CityResponseDTO;
 import com.messimari.restaurantml.domain.service.RegistrationCityService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
 import java.util.List;
 
 @RestController
-@RequestMapping("/cities")
+@RequestMapping(path = "/cities")
 public class CityController implements CityControllerOpenApi {
 
     @Autowired
@@ -26,13 +27,13 @@ public class CityController implements CityControllerOpenApi {
     }
 
     @ResponseStatus(HttpStatus.OK)
-    @GetMapping
+    @GetMapping(produces = MediaType.APPLICATION_JSON_VALUE)
     public List<CityDTO> findlistCities(){
         return service.findlistCities();
     }
 
     @ResponseStatus(HttpStatus.OK)
-    @GetMapping("/{id}")
+    @GetMapping(path = "/{id}", produces = MediaType.APPLICATION_JSON_VALUE)
     public CityResponseDTO findByIdcity (
             @PathVariable("id") Long id){
         return service.findByIdcity(id);
