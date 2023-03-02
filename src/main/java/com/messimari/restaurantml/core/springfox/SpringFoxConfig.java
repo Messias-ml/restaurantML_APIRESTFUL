@@ -4,9 +4,11 @@ import com.fasterxml.classmate.TypeResolver;
 import com.messimari.restaurantml.api.handler.FieldValidation;
 import com.messimari.restaurantml.api.handler.Problem;
 import com.messimari.restaurantml.api.handler.ProblemWithField;
+import com.messimari.restaurantml.core.springfox.openapi.model.PageableOpenApiModel;
 import com.messimari.restaurantml.domain.model.StatusDemand;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpMethod;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
@@ -45,6 +47,7 @@ public class SpringFoxConfig {
                 .additionalModels(typeResolver.resolve(Problem.class))
                 .additionalModels(typeResolver.resolve(FieldValidation.class))
                 .additionalModels(typeResolver.resolve(ProblemWithField.class))
+                .directModelSubstitute(Pageable.class, PageableOpenApiModel.class)
                 .apiInfo(apiInfo())
                 .tags(new Tag("City", "City of state"))
                 .tags(new Tag("Demand", "Demand of Restaurant"));
