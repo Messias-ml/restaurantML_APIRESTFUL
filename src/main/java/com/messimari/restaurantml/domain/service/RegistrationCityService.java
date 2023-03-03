@@ -9,6 +9,9 @@ import com.messimari.restaurantml.domain.model.CityEntity;
 import com.messimari.restaurantml.domain.repository.CityRepository;
 import lombok.AllArgsConstructor;
 import org.springframework.dao.DataIntegrityViolationException;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageImpl;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -28,9 +31,10 @@ public class RegistrationCityService {
         repository.save(cityEntity);
     }
 
-    public List<CityDTO> findlistCities() {
-        List<CityEntity> allCities = repository.findAll();
-        return convertList(allCities, CityDTO.class);
+    public Page<CityDTO> findlistCities(Pageable pageable) {
+        Page<CityEntity> allCities = repository.findAll(pageable);
+        List<CityDTO> listCity = convertList(allCities.getContent(), CityDTO.class);
+        return new PageImpl<>(listCity, pageable, listCity.size());
     }
 
     public CityResponseDTO findByIdcity(Long id) {

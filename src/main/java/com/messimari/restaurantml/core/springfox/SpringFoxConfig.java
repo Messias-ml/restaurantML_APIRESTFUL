@@ -5,7 +5,6 @@ import com.messimari.restaurantml.api.handler.FieldValidation;
 import com.messimari.restaurantml.api.handler.Problem;
 import com.messimari.restaurantml.api.handler.ProblemWithField;
 import com.messimari.restaurantml.core.springfox.openapi.model.PageableOpenApiModel;
-import com.messimari.restaurantml.domain.model.StatusDemand;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.data.domain.Pageable;

@@ -6,6 +6,9 @@ import com.messimari.restaurantml.api.model.dto.city.CityRequestDTO;
 import com.messimari.restaurantml.api.model.dto.city.CityResponseDTO;
 import com.messimari.restaurantml.domain.service.RegistrationCityService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.web.PageableDefault;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.*;
@@ -28,8 +31,8 @@ public class CityController implements CityControllerOpenApi {
 
     @ResponseStatus(HttpStatus.OK)
     @GetMapping(produces = MediaType.APPLICATION_JSON_VALUE)
-    public List<CityDTO> findlistCities(){
-        return service.findlistCities();
+    public Page<CityDTO> findlistCities(@PageableDefault Pageable page){
+        return service.findlistCities(page);
     }
 
     @ResponseStatus(HttpStatus.OK)

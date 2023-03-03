@@ -2,10 +2,14 @@ package com.messimari.restaurantml.core.springfox.openapi.model;
 
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
+import lombok.Getter;
+import lombok.Setter;
 
 import java.util.List;
 
 @ApiModel("Pageable")
+@Getter
+@Setter
 public class PageableOpenApiModel {
 
     @ApiModelProperty(example = "5", value = "Tamanho de conteudos na pagina")

@@ -5,6 +5,8 @@ import com.messimari.restaurantml.api.model.dto.city.CityDTO;
 import com.messimari.restaurantml.api.model.dto.city.CityRequestDTO;
 import com.messimari.restaurantml.api.model.dto.city.CityResponseDTO;
 import io.swagger.annotations.*;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 
 import java.util.List;
 
@@ -22,7 +24,7 @@ public interface CityControllerOpenApi {
             @ApiResponse(code = 400, message = "erro na busca", response = Problem.class)
 
     })
-    public List<CityDTO> findlistCities();
+    public Page<CityDTO> findlistCities(Pageable page);
 
     @ApiOperation("find by id City")
     public CityResponseDTO findByIdcity (@ApiParam(value = "ID of City", example = "1") Long id);
