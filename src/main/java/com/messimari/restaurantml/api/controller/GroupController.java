@@ -21,37 +21,37 @@ public class GroupController {
 
     @ResponseStatus(HttpStatus.OK)
     @GetMapping
-    private List<GroupNameDTO> findListGroups(){
+    public List<GroupNameDTO> findListGroups(){
         return service.findListGroups();
     }
 
     @ResponseStatus(HttpStatus.OK)
     @GetMapping("/{id}")
-    private GroupCompleteDTO findByIdGroup(@PathVariable Long id){
+    public GroupCompleteDTO findByIdGroup(@PathVariable Long id){
         return service.findByIdGroup(id);
     }
 
     @ResponseStatus(HttpStatus.OK)
     @GetMapping("/{id}/permitions")
-    private Set<PermitionDTO> findByIdPermitionOfGroup(@PathVariable Long id){
+    public Set<PermitionDTO> findByIdPermitionOfGroup(@PathVariable Long id){
         return service.findByIdPermitionOfGroup(id);
     }
 
     @ResponseStatus(HttpStatus.CREATED)
     @PostMapping
-    private void createGroup(@RequestBody GroupRegisterDTO groupToRegister){
+    public void createGroup(@RequestBody GroupRegisterDTO groupToRegister){
         service.createGroup(groupToRegister);
     }
 
     @ResponseStatus(HttpStatus.NO_CONTENT)
     @PutMapping("/{id}")
-    private void updateGroup(@PathVariable Long id, @RequestBody GroupRegisterDTO groupToUpdate){
+    public void updateGroup(@PathVariable Long id, @RequestBody GroupRegisterDTO groupToUpdate){
         service.updateGroup(id, groupToUpdate);
     }
 
     @ResponseStatus(HttpStatus.NO_CONTENT)
     @DeleteMapping("/{id}")
-    private void deleteGroup(@PathVariable Long id){
+    public void deleteGroup(@PathVariable Long id){
         service.deleteGroup(id);
     }
 }

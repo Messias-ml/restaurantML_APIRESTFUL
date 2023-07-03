@@ -1,5 +1,6 @@
 package com.messimari.restaurantml.api.controller;
 
+import com.messimari.restaurantml.api.model.dto.state.StateDTO;
 import com.messimari.restaurantml.domain.model.StateEntity;
 import com.messimari.restaurantml.domain.service.RegistrationStateService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -30,7 +31,7 @@ public class StateController {
 
     @ResponseStatus(HttpStatus.OK)
     @GetMapping("/{id}")
-    public StateEntity findByIdState(@PathVariable("id") Long id){
+    public StateDTO findByIdState(@PathVariable("id") Long id){
         return service.findByIdState(id);
     }
 

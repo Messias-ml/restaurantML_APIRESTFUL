@@ -4,6 +4,9 @@ import com.messimari.restaurantml.api.model.dto.kitchen.AllKitchenDTO;
 import com.messimari.restaurantml.api.model.dto.kitchen.KitchenDTO;
 import com.messimari.restaurantml.domain.service.RegistrationKitchenService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.web.PageableDefault;
+import org.springframework.hateoas.PagedModel;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 
@@ -25,8 +28,8 @@ public class KitchenController {
 
     @ResponseStatus(HttpStatus.OK)
     @GetMapping
-    public List<KitchenDTO> findListKitchens(){
-        return service.findListKitchens();
+    public PagedModel<KitchenDTO> findListKitchens(@PageableDefault(size = 10) Pageable pageable){
+        return service.findListKitchens(pageable);
     }
 
     @ResponseStatus(HttpStatus.OK)

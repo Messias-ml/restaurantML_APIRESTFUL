@@ -1,5 +1,7 @@
 package com.messimari.restaurantml.domain.service;
 
+import com.messimari.restaurantml.api.controller.GroupController;
+import com.messimari.restaurantml.api.controller.UserController;
 import com.messimari.restaurantml.api.model.dto.group.GroupNameDTO;
 import com.messimari.restaurantml.api.model.dto.group.ListGroupIdDTO;
 import com.messimari.restaurantml.api.model.dto.user.UserCompleteDTO;
@@ -14,6 +16,7 @@ import com.messimari.restaurantml.domain.repository.UserRepository;
 import lombok.AllArgsConstructor;
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.dao.EmptyResultDataAccessException;
+import org.springframework.hateoas.CollectionModel;
 import org.springframework.stereotype.Service;
 import org.springframework.util.CollectionUtils;
 
@@ -22,6 +25,8 @@ import java.util.List;
 
 import static com.messimari.restaurantml.core.modelMapper.ModelMapperConvert.convert;
 import static com.messimari.restaurantml.core.modelMapper.ModelMapperConvert.convertList;
+import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.linkTo;
+import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.methodOn;
 
 @Service
 @AllArgsConstructor
@@ -34,15 +39,24 @@ public class UserService {
         repository.save(userEntity);
     }
 
-    public List<UserBasicDTO> findListUsers() {
+    public CollectionModel<UserBasicDTO> findListUsers() {
         List<UserEntity> allUser = repository.findAll();
-        return convertList(allUser, UserBasicDTO.class);
+        List<UserBasicDTO> userBasicDTOS = convertList(allUser, UserBasicDTO.class);
+        CollectionModel<UserBasicDTO> usersCollectionModel = CollectionModel.of(userBasicDTOS);
+        usersCollectionModel.add(linkTo(methodOn(UserController.class).findListUsers()).withSelfRel());
+        return usersCollectionModel;
     }
 
     public UserCompleteDTO findByIdUser(Long id) {
         UserEntity user = repository.findById(id)
                 .orElseThrow(() -> new RecordNotFoundException(new Object[]{id}));
-        return convert(user, UserCompleteDTO.class);
+        UserCompleteDTO userDTO = convert(user, UserCompleteDTO.class);
+        userDTO.add(linkTo(methodOn(UserController.class).findByIdUser(id)).withSelfRel());
+        userDTO.add(linkTo(methodOn(UserController.class).findListUsers()).withRel("ListUsers"));
+        user.getGroups().forEach(g -> {
+            userDTO.add(linkTo(methodOn(GroupController.class).findByIdGroup(g.getId())).withRel("Group"));
+        });
+        return userDTO;
     }
 
     public void updateUser(Long id, UserBasicDTO userToUpdate) {

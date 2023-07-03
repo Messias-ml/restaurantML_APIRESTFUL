@@ -4,6 +4,7 @@ import com.messimari.restaurantml.api.controller.openAPI.CityControllerOpenApi;
 import com.messimari.restaurantml.api.model.dto.city.CityDTO;
 import com.messimari.restaurantml.api.model.dto.city.CityRequestDTO;
 import com.messimari.restaurantml.api.model.dto.city.CityResponseDTO;
+import com.messimari.restaurantml.core.UriComplete;
 import com.messimari.restaurantml.domain.service.RegistrationCityService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
