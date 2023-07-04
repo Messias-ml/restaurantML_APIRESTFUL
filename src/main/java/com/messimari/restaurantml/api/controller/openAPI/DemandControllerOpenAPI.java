@@ -6,6 +6,9 @@ import com.messimari.restaurantml.api.model.dto.demand.DemandDTO;
 import com.messimari.restaurantml.api.model.dto.demand.DemandToRestaurantDTO;
 import com.messimari.restaurantml.domain.model.StatusDemand;
 import io.swagger.annotations.*;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.web.PageableDefault;
+import org.springframework.hateoas.PagedModel;
 
 import java.util.List;
 @Api(tags = "Demand")
@@ -15,7 +18,7 @@ public interface DemandControllerOpenAPI {
     void createDemand(DemandCompleteDTO demand);
 
     @ApiOperation("Find all demand by id of Restaurant")
-    List<DemandToRestaurantDTO> findAllDemandByIdRestaurant(@ApiParam(name = "Id of restaurant", example = "1") Long id);
+    PagedModel<DemandToRestaurantDTO> findAllDemandByIdRestaurant(@ApiParam(name = "Id of restaurant", example = "1") Long id);
 
     @ApiOperation("Find by id of demand")
     DemandDTO findByIdDemand(Long id);

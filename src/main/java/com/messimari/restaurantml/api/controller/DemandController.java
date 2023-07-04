@@ -7,6 +7,9 @@ import com.messimari.restaurantml.api.model.dto.demand.DemandToRestaurantDTO;
 import com.messimari.restaurantml.domain.model.StatusDemand;
 import com.messimari.restaurantml.domain.service.DemandService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.web.PageableDefault;
+import org.springframework.hateoas.PagedModel;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 
@@ -28,7 +31,7 @@ public class DemandController implements DemandControllerOpenAPI {
 
     @GetMapping("/restaurant/{id}")
     @ResponseStatus(HttpStatus.OK)
-    public List<DemandToRestaurantDTO> findAllDemandByIdRestaurant(@PathVariable Long id){
+    public PagedModel<DemandToRestaurantDTO> findAllDemandByIdRestaurant(@PathVariable Long id){
         return service.findAllDemandByIdRestaurant(id);
     }
 

@@ -1,4 +1,4 @@
-package com.messimari.restaurantml.domain.model.assemble;
+package com.messimari.restaurantml.api.model.assemble;
 
 import com.messimari.restaurantml.api.controller.KitchenController;
 import com.messimari.restaurantml.api.model.dto.kitchen.KitchenDTO;

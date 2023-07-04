@@ -1,19 +1,23 @@
 package com.messimari.restaurantml.domain.service;
 
+import com.messimari.restaurantml.api.model.assemble.DemandAssemble;
 import com.messimari.restaurantml.api.model.dto.demand.DemandCompleteDTO;
 import com.messimari.restaurantml.api.model.dto.demand.DemandDTO;
 import com.messimari.restaurantml.api.model.dto.demand.DemandToRestaurantDTO;
 import com.messimari.restaurantml.domain.exception.BusinessException;
 import com.messimari.restaurantml.domain.exception.RecordNotExistRelationalException;
 import com.messimari.restaurantml.domain.exception.RecordNotFoundException;
-import com.messimari.restaurantml.domain.model.DemandEntity;
-import com.messimari.restaurantml.domain.model.ItemDemandEntity;
-import com.messimari.restaurantml.domain.model.ProductEntity;
-import com.messimari.restaurantml.domain.model.StatusDemand;
+import com.messimari.restaurantml.domain.model.*;
 import com.messimari.restaurantml.domain.repository.DemandRepository;
 import com.messimari.restaurantml.domain.repository.ProductReposiroty;
 import com.messimari.restaurantml.domain.repository.RestaurantRepository;
 import lombok.AllArgsConstructor;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.PageImpl;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.web.PagedResourcesAssembler;
+import org.springframework.hateoas.Link;
+import org.springframework.hateoas.PagedModel;
 import org.springframework.stereotype.Service;
 
 import java.math.BigDecimal;
@@ -33,9 +37,17 @@ public class DemandService {
 
     private final ProductReposiroty productReposiroty;
 
-    public List<DemandToRestaurantDTO> findAllDemandByIdRestaurant(Long id) {
+    @Autowired
+    private PagedResourcesAssembler<DemandEntity> pagedResourcesAssembler;
+
+    @Autowired
+    private final DemandAssemble demandAssemble;
+
+    public PagedModel<DemandToRestaurantDTO> findAllDemandByIdRestaurant(Long id) {
         List<DemandEntity> allDemandByIdRestaurant = repository.findAllByIdRestaurant(id);
-        return convertList(allDemandByIdRestaurant, DemandToRestaurantDTO.class);
+        Pageable pageable = Pageable.unpaged();
+        PageImpl<DemandEntity> pageDemand = new PageImpl<>(allDemandByIdRestaurant, pageable, allDemandByIdRestaurant.size());
+        return pagedResourcesAssembler.toModel(pageDemand, demandAssemble);
     }
 
     public void createDemand(DemandCompleteDTO demand) {
